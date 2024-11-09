@@ -1,38 +1,190 @@
-// 预览功能
+const themes = {
+    // 1. Ocean Deep - 深蓝主题(对应第一张截图)
+    'ocean-deep': {
+        name: 'Ocean Deep',
+        colors: {
+            primary: {
+                base: '#0EA5E9',    // 主蓝色
+                light: '#38BDF8',   // 浅蓝色
+                dark: '#0369A1'     // 深蓝色
+            },
+            background: {
+                dark: '#0F172A',    // 深色背景
+                medium: '#1E293B',  // 中等背景
+                light: '#334155'    // 浅色背景
+            },
+            text: {
+                primary: '#F1F5F9', // 主要文字
+                secondary: '#94A3B8' // 次要文字
+            }
+        },
+        styles: `
+            .reveal[data-theme="ocean-deep"] {
+                background: var(--bg-100);
+                color: var(--text-100);
+            }
+        `
+    },
+
+    // 2. Coastal Morning - 浅色主题(对应第二张截图)
+    'coastal-morning': {
+        name: 'Coastal Morning',
+        colors: {
+            primary: {
+                base: '#0284C7',     // 主蓝色
+                light: '#38BDF8',    // 浅蓝色
+                dark: '#075985'      // 深蓝色
+            },
+            background: {
+                light: '#F0F9FF',    // 浅色背景
+                medium: '#E0F2FE',   // 中等背景
+                dark: '#BAE6FD'      // 深色背景
+            },
+            text: {
+                primary: '#0F172A',  // 主要文字
+                secondary: '#334155' // 次要文字
+            }
+        }
+    },
+
+    // 3. Lavender Dream - 紫色主题(对应第三张截图)
+    'lavender-dream': {
+        name: 'Lavender Dream',
+        colors: {
+            primary: {
+                base: '#9333EA',     // 主紫色
+                light: '#A855F7',    // 浅紫色
+                dark: '#7E22CE'      // 深紫色
+            },
+            background: {
+                light: '#FAF5FF',    // 浅色背景
+                medium: '#F3E8FF',   // 中等背景
+                dark: '#E9D5FF'      // 深色背景
+            },
+            text: {
+                primary: '#1E1B4B',  // 主要文字
+                secondary: '#4338CA' // 次要文字
+            }
+        }
+    },
+
+    // 4. Midnight Navy - 深蓝主题(对应第四张截图)
+    'midnight-navy': {
+        name: 'Midnight Navy',
+        colors: {
+            primary: {
+                base: '#2563EB',     // 主蓝色
+                light: '#3B82F6',    // 浅蓝色
+                dark: '#1D4ED8'      // 深蓝色
+            },
+            background: {
+                dark: '#0F172A',     // 深色背景
+                medium: '#1E293B',   // 中等背景
+                light: '#334155'     // 浅色背景
+            },
+            text: {
+                primary: '#F8FAFC',  // 主要文字
+                secondary: '#CBD5E1' // 次要文字
+            }
+        }
+    },
+
+    // 5. Sunset Flame - 橙色主题(对应第五张截图)
+    'sunset-flame': {
+        name: 'Sunset Flame',
+        colors: {
+            primary: {
+                base: '#F97316',     // 主橙色
+                light: '#FB923C',    // 浅橙色
+                dark: '#EA580C'      // 深橙色
+            },
+            background: {
+                dark: '#0F172A',     // 深色背景
+                medium: '#1E293B',   // 中等背景
+                light: '#334155'     // 浅色背景
+            },
+            text: {
+                primary: '#F8FAFC',  // 主要文字
+                secondary: '#CBD5E1' // 次要文字
+            }
+        }
+    },
+
+    // 6. Forest Breeze - 绿色主题(对应第六张截图)
+    'forest-breeze': {
+        name: 'Forest Breeze',
+        colors: {
+            primary: {
+                base: '#059669',     // 主绿色
+                light: '#10B981',    // 浅绿色
+                dark: '#047857'      // 深绿色
+            },
+            background: {
+                light: '#F1F5F9',    // 浅色背景
+                medium: '#E2E8F0',   // 中等背景
+                dark: '#CBD5E1'      // 深色背景
+            },
+            text: {
+                primary: '#0F172A',  // 主要文字
+                secondary: '#334155' // 次要文字
+            }
+        }
+    },
+
+    // 7. Tech Blue - 科技蓝主题(对应第七张截图)
+    'tech-blue': {
+        name: 'Tech Blue',
+        colors: {
+            primary: {
+                base: '#2563EB',     // 主蓝色
+                light: '#3B82F6',    // 浅蓝色
+                dark: '#1D4ED8'      // 深蓝色
+            },
+            accent: {
+                primary: '#D946EF',  // 亮紫色
+                light: '#F0ABFC'     // 浅紫色
+            },
+            background: {
+                dark: '#0F172A',     // 深色背景
+                medium: '#1E293B',   // 中等背景
+                light: '#334155'     // 浅色背景
+            },
+            text: {
+                primary: '#F8FAFC',  // 主要文字
+                secondary: '#CBD5E1' // 次要文字
+            }
+        }
+    },
+
+    // 8. Mint Fresh - 薄荷绿主题(对应第八张截图)
+    'mint-fresh': {
+        name: 'Mint Fresh',
+        colors: {
+            primary: {
+                base: '#10B981',     // 主绿色
+                light: '#34D399',    // 浅绿色
+                dark: '#059669'      // 深绿色
+            },
+            background: {
+                light: '#ECFDF5',    // 浅色背景
+                medium: '#D1FAE5',   // 中等背景
+                dark: '#A7F3D0'      // 深色背景
+            },
+            text: {
+                primary: '#064E3B',  // 主要文字
+                secondary: '#065F46' // 次要文字
+            }
+        }
+    }
+}; 
+
+// 导出预览函数
 export function previewPresentation(filename, content) {
     console.log(`开始预览文件: ${filename}`);
     
-    // 处理 Markdown 内容
-    function processContent(content) {
-        console.log('开始处理 Markdown 内容');
-        
-        // 移除 YAML 头部
-        content = content.replace(/^---[\s\S]*?---\n/m, '');
-        console.log('已移除 YAML 头部');
-        
-        // 按标题分割内容为幻灯片
-        const slides = content.split(/(?=^#{1,6}\s)/m)
-            .filter(slide => slide.trim())
-            .map(slide => `<section data-markdown><script type="text/template">\n${slide.trim()}\n</script></section>`)
-            .join('\n');
-            
-        console.log(`处理完成，共生成 ${slides.split('</section>').length - 1} 张幻灯片`);
-        return slides;
-    }
-
     const slides = processContent(content);
-    
-    // 创建新的预览窗口
-    console.log('创建预览窗口');
     const previewWindow = window.open('', '_blank');
-    if (!previewWindow) {
-        console.error('预览窗口创建失败');
-        alert('请允许打开新窗口以预览演示文稿');
-        return;
-    }
-
-    // 注入 reveal.js 相关代码
-    console.log('开始注入 reveal.js 代码');
+    
     const previewHTML = `
         <!DOCTYPE html>
         <html>
@@ -42,79 +194,157 @@ export function previewPresentation(filename, content) {
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/black.css" id="theme">
+            <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
             
             <style>
-                :root {
-                    --theme-font-family: 'Microsoft YaHei', sans-serif;
-                    --theme-code-font: 'Source Code Pro', monospace;
-                    --theme-primary: #3B82F6;
-                    --theme-secondary: #1F2937;
+                /* Ocean Deep Theme - 深蓝主题 */
+                .reveal[data-theme="ocean-deep"] {
+                    background: #1E1E1E;
+                    color: #FFFFFF;
+                }
+                .reveal[data-theme="ocean-deep"] .slides section {
+                    background: rgba(30, 41, 59, 0.8);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
                 }
 
-                .reveal {
-                    font-family: var(--theme-font-family);
-                    font-size: 28px;
+                /* Coastal Morning Theme - 浅色主题 */
+                .reveal[data-theme="coastal-morning"] {
+                    background: #F0F9FF;
+                    color: #1E293B;
+                }
+                .reveal[data-theme="coastal-morning"] .slides section {
+                    background: rgba(255, 255, 255, 0.9);
+                    border: 1px solid rgba(0, 0, 0, 0.1);
                 }
 
-                .reveal .slides {
-                    text-align: left;
+                /* Lavender Dream Theme - 紫色主题 */
+                .reveal[data-theme="lavender-dream"] {
+                    background: #F5F3F7;
+                    color: #4A4A4A;
+                }
+                .reveal[data-theme="lavender-dream"] .slides section {
+                    background: #FFFFFF;
+                    border: 1px solid rgba(147, 51, 234, 0.1);
                 }
 
+                /* Midnight Navy Theme - 深蓝主题 */
+                .reveal[data-theme="midnight-navy"] {
+                    background: #0F172A;
+                    color: #F8FAFC;
+                }
+                .reveal[data-theme="midnight-navy"] .slides section {
+                    background: rgba(30, 41, 59, 0.9);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                }
+
+                /* Sunset Flame Theme - 橙色深色主题 */
+                .reveal[data-theme="sunset-flame"] {
+                    background: #1D1F21;
+                    color: #FFFFFF;
+                }
+                .reveal[data-theme="sunset-flame"] .slides section {
+                    background: rgba(44, 46, 48, 0.8);
+                    border: 1px solid rgba(255, 102, 0, 0.1);
+                }
+
+                /* Forest Breeze Theme - 绿色主题 */
+                .reveal[data-theme="forest-breeze"] {
+                    background: #F5ECD7;
+                    color: #353535;
+                }
+                .reveal[data-theme="forest-breeze"] .slides section {
+                    background: rgba(255, 255, 255, 0.9);
+                    border: 1px solid rgba(143, 191, 159, 0.2);
+                }
+
+                /* Tech Blue Theme - 科技蓝主题 */
+                .reveal[data-theme="tech-blue"] {
+                    background: #1E293B;
+                    color: #CBD5E1;
+                }
+                .reveal[data-theme="tech-blue"] .slides section {
+                    background: rgba(51, 65, 85, 0.7);
+                    border: 1px solid rgba(37, 99, 235, 0.1);
+                }
+
+                /* Mint Fresh Theme - 薄荷绿主题 */
+                .reveal[data-theme="mint-fresh"] {
+                    background: #E0F2F1;
+                    color: #263339;
+                }
+                .reveal[data-theme="mint-fresh"] .slides section {
+                    background: #FFFFFF;
+                    border: 1px solid rgba(38, 166, 154, 0.1);
+                }
+
+                /* 通用样式 */
                 .reveal .slides section {
-                    padding: 1em;
+                    border-radius: 16px;
+                    padding: 40px;
+                    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
                 }
 
-                .reveal h1, .reveal h2, .reveal h3 {
-                    color: var(--theme-primary);
+                .reveal h1 {
+                    font-size: 42px;
+                    font-weight: 700;
                     margin-bottom: 0.8em;
                 }
 
+                .reveal h2 {
+                    font-size: 34px;
+                    font-weight: 600;
+                }
+
+                .reveal h3 {
+                    font-size: 28px;
+                    font-weight: 500;
+                }
+
+                .reveal p,
+                .reveal ul,
+                .reveal ol {
+                    font-size: 26px;
+                    line-height: 1.6;
+                }
+
                 .reveal pre {
-                    margin: 1em 0;
+                    border-radius: 8px;
                     padding: 1em;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-                    border-radius: 4px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                 }
 
                 .reveal code {
-                    font-family: var(--theme-code-font);
-                    padding: 0.2em 0.4em;
-                    border-radius: 3px;
+                    font-family: 'JetBrains Mono', monospace;
+                    font-size: 22px;
                 }
 
+                /* 主题选择器样式 */
                 .theme-select {
                     position: fixed;
-                    top: 10px;
-                    right: 10px;
+                    top: 20px;
+                    right: 20px;
                     z-index: 1000;
-                    padding: 8px;
-                    border-radius: 4px;
-                    background: rgba(0,0,0,0.6);
+                    padding: 8px 12px;
+                    background: rgba(0, 0, 0, 0.6);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 8px;
                     color: white;
-                    border: 1px solid rgba(255,255,255,0.2);
-                    font-family: var(--theme-font-family);
-                }
-
-                .theme-select option {
-                    background: #2d2d2d;
-                    color: white;
-                    padding: 8px;
+                    font-family: inherit;
+                    font-size: 14px;
+                    backdrop-filter: blur(10px);
                 }
             </style>
         </head>
         <body>
             <select class="theme-select" id="theme-select">
-                <option value="black">Black</option>
-                <option value="white">White</option>
-                <option value="league">League</option>
-                <option value="beige">Beige</option>
-                <option value="sky">Sky</option>
-                <option value="night">Night</option>
-                <option value="serif">Serif</option>
-                <option value="simple">Simple</option>
-                <option value="solarized">Solarized</option>
-                <option value="moon">Moon</option>
-                <option value="blood">Blood</option>
+                <option value="ocean-deep">Ocean Deep</option>
+                <option value="coastal-morning">Coastal Morning</option>
+                <option value="lavender-dream">Lavender Dream</option>
+                <option value="midnight-navy">Midnight Navy</option>
+                <option value="sunset-flame">Sunset Flame</option>
+                <option value="forest-breeze">Forest Breeze</option>
+                <option value="tech-blue">Tech Blue</option>
+                <option value="mint-fresh">Mint Fresh</option>
             </select>
 
             <div class="reveal">
@@ -123,69 +353,31 @@ export function previewPresentation(filename, content) {
                 </div>
             </div>
 
+            <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/math/math.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/zoom/zoom.js"></script>
+
             <script>
-                console.log('开始加载 reveal.js 资源');
-                
-                async function loadScript(src) {
-                    console.log('加载脚本:', src);
-                    return new Promise((resolve, reject) => {
-                        const script = document.createElement('script');
-                        script.src = src;
-                        script.onload = () => {
-                            console.log('脚本加载成功:', src);
-                            resolve();
-                        };
-                        script.onerror = (error) => {
-                            console.error('脚本加载失败:', src, error);
-                            reject(error);
-                        };
-                        document.head.appendChild(script);
+                window.addEventListener('load', function() {
+                    Reveal.initialize({
+                        hash: true,
+                        center: false,
+                        progress: true,
+                        slideNumber: 'c/t',
+                        plugins: [ RevealMarkdown, RevealHighlight, RevealMath, RevealZoom ]
                     });
-                }
 
-                async function initializeReveal() {
-                    try {
-                        console.log('开始加载 reveal.js 及插件');
-                        await Promise.all([
-                            loadScript('https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js'),
-                            loadScript('https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js'),
-                            loadScript('https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js'),
-                            loadScript('https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/math/math.js'),
-                            loadScript('https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/zoom/zoom.js')
-                        ]);
-                        
-                        console.log('初始化 Reveal.js');
-                        Reveal.initialize({
-                            hash: true,
-                            plugins: [ RevealMarkdown, RevealHighlight, RevealMath, RevealZoom ],
-                            width: 1200,
-                            height: 700,
-                            margin: 0.1,
-                            controls: true,
-                            progress: true,
-                            center: false,
-                            transition: 'slide',
-                            slideNumber: true,
-                            showNotes: false,
-                            autoPlayMedia: true,
-                            previewLinks: false
-                        });
+                    // 设置默认主题
+                    document.querySelector('.reveal').setAttribute('data-theme', 'ocean-deep');
 
-                        // 主题切换
-                        document.getElementById('theme-select').addEventListener('change', (e) => {
-                            const theme = e.target.value;
-                            console.log('切换主题:', theme);
-                            const link = document.getElementById('theme');
-                            link.href = \`https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/\${theme}.css\`;
-                            console.log('主题切换完成');
-                        });
-
-                    } catch (error) {
-                        console.error('初始化失败:', error);
-                    }
-                }
-
-                initializeReveal();
+                    // 主题切换
+                    document.getElementById('theme-select').addEventListener('change', (e) => {
+                        document.querySelector('.reveal').setAttribute('data-theme', e.target.value);
+                        setTimeout(() => Reveal.layout(), 100);
+                    });
+                });
             </script>
         </body>
         </html>
@@ -193,5 +385,14 @@ export function previewPresentation(filename, content) {
 
     previewWindow.document.write(previewHTML);
     previewWindow.document.close();
-    console.log('预览窗口创建完成');
+}
+
+// 处理 Markdown 内容
+function processContent(content) {
+    console.log('处理 Markdown 内容');
+    content = content.replace(/^---[\s\S]*?---\n/m, '');
+    return content.split(/(?=^#{1,6}\s)/m)
+        .filter(slide => slide.trim())
+        .map(slide => `<section data-markdown><script type="text/template">\n${slide.trim()}\n</script></section>`)
+        .join('\n');
 } 
