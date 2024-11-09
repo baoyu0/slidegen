@@ -1,39 +1,619 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Markdown 演示文稿转换器</title>
+		<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css" rel="stylesheet">
+		<style>
+			:root {
+				--primary-color: #2196F3;
+				--secondary-color: #87CEEB;
+				--success-color: #4CAF50;
+				--error-color: #ff6b6b;
+				--background-color: #f5f5f5;
+				--card-background: rgba(255, 255, 255, 0.9);
+				--text-color: #333;
+			}
 
-		<title>reveal.js</title>
+			:root[data-theme="light"] {
+				--primary-color: #2196F3;
+				--secondary-color: #87CEEB;
+				--success-color: #4CAF50;
+				--error-color: #ff6b6b;
+				--background-color: #f5f5f5;
+				--card-background: rgba(255, 255, 255, 0.9);
+				--text-color: #333;
+			}
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+			:root[data-theme="dark"] {
+				--primary-color: #64B5F6;
+				--secondary-color: #B3E5FC;
+				--success-color: #81C784;
+				--error-color: #ff8a8a;
+				--background-color: #1a1a1a;
+				--card-background: rgba(30, 30, 30, 0.9);
+				--text-color: #e0e0e0;
+			}
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+			body {
+				margin: 0;
+				padding: 20px;
+				font-family: 'Microsoft YaHei', sans-serif;
+				background-color: var(--background-color);
+				color: var(--text-color);
+			}
+
+			.container {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 20px;
+			}
+
+			.header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 30px;
+			}
+
+			.title {
+				font-size: 24px;
+				color: var(--primary-color);
+			}
+
+			.card {
+				background: var(--card-background);
+				border-radius: 8px;
+				box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+				padding: 20px;
+				margin-bottom: 20px;
+			}
+
+			.upload-section {
+				display: flex;
+				gap: 10px;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+
+			.button {
+				padding: 8px 16px;
+				border: none;
+				border-radius: 4px;
+				cursor: pointer;
+				font-size: 14px;
+				display: flex;
+				align-items: center;
+				gap: 5px;
+				transition: all 0.3s ease;
+			}
+
+			.button-primary {
+				background: var(--primary-color);
+				color: white;
+			}
+
+			.button-secondary {
+				background: var(--secondary-color);
+				color: white;
+			}
+
+			.button:hover {
+				opacity: 0.9;
+				transform: translateY(-1px);
+			}
+
+			.file-list {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+				gap: 20px;
+			}
+
+			.file-card {
+				background: white;
+				border-radius: 8px;
+				padding: 15px;
+				box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+				transition: all 0.3s ease;
+			}
+
+			.file-card:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+			}
+
+			.file-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 10px;
+			}
+
+			.file-name {
+				font-weight: bold;
+				color: var(--primary-color);
+			}
+
+			.file-actions {
+				display: flex;
+				gap: 10px;
+			}
+
+			.file-info {
+				font-size: 12px;
+				color: #666;
+			}
+
+			#debug-panel {
+				position: fixed;
+				bottom: 20px;
+				right: 20px;
+				width: 300px;
+				max-height: 200px;
+				background: rgba(0, 0, 0, 0.8);
+				color: #fff;
+				border-radius: 8px;
+				padding: 10px;
+				font-family: monospace;
+				font-size: 12px;
+				overflow-y: auto;
+				z-index: 1000;
+				transition: all 0.3s ease;
+			}
+
+			.debug-entry {
+				margin-bottom: 5px;
+				padding: 5px;
+				border-radius: 4px;
+			}
+
+			.debug-info { color: var(--success-color); }
+			.debug-error { color: var(--error-color); }
+
+			@media (max-width: 768px) {
+				.container {
+					padding: 10px;
+				}
+
+				.file-list {
+					grid-template-columns: 1fr;
+				}
+
+				#debug-panel {
+					width: calc(100% - 40px);
+					left: 20px;
+				}
+			}
+
+			.reveal .slides {
+				text-align: left;
+			}
+
+			.reveal .slides section {
+				padding: 20px;
+			}
+
+			.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+				margin-bottom: 20px;
+				text-transform: none;
+			}
+
+			.reveal pre {
+				margin: 15px 0;
+				width: 100%;
+				box-sizing: border-box;
+			}
+
+			.reveal pre code {
+				padding: 15px;
+				max-height: 400px;
+				word-wrap: normal;
+			}
+
+			.reveal img {
+				margin: 15px 0;
+				max-height: 400px;
+				width: auto;
+			}
+
+			.reveal ul, .reveal ol {
+				display: block;
+				margin: 0 0 15px 50px;
+			}
+
+			.reveal li {
+				margin: 10px 0;
+			}
+
+			.reveal p {
+				margin: 15px 0;
+				line-height: 1.4;
+			}
+
+			.reveal .progress {
+				color: var(--primary-color);
+			}
+
+			@media print {
+				.reveal .slides section {
+					page-break-before: always;
+					page-break-after: always;
+				}
+
+				.reveal .slides section:last-child {
+					page-break-after: avoid;
+				}
+			}
+		</style>
 	</head>
 	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
+		<div class="container">
+			<header class="header">
+				<h1 class="title">Markdown 演示文稿转换器</h1>
+				<div class="theme-selector">
+					<select id="theme-select" class="theme-select">
+						<option value="light">浅色主题</option>
+						<option value="dark">深色主题</option>
+					</select>
+				</div>
+			</header>
+
+			<main>
+				<section class="card">
+					<div class="upload-section">
+						<input type="file" id="markdown-file" accept=".md,.markdown" style="display: none">
+						<button class="button button-primary" onclick="document.getElementById('markdown-file').click()">
+							<i class="mdi mdi-file-upload"></i>选择文件
+						</button>
+						<button id="load-markdown" class="button button-secondary">
+							<i class="mdi mdi-play"></i>生成演示文稿
+						</button>
+					</div>
+					<div id="file-list" class="file-list"></div>
+				</section>
+			</main>
 		</div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+		<div id="debug-panel"></div>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+		<script>
+			function removeYamlFrontMatter(content) {
+				const yamlRegex = /^([-*]{3})\n[\s\S]*?\1\n/;
+				return content.replace(yamlRegex, '');
+			}
+
+			function splitIntoSlides(content) {
+				content = removeYamlFrontMatter(content);
+				
+				const slides = [];
+				const lines = content.split('\n');
+				let currentSlide = '';
+				let listItems = [];
+				let isInList = false;
+				
+				function addListToSlide() {
+					if (listItems.length > 0) {
+						currentSlide += `<ul>${listItems.map(item => 
+							`<li class="fragment fade-right">${item}</li>`
+						).join('')}</ul>`;
+						listItems = [];
+						isInList = false;
+					}
+				}
+
+				function processMarkdownImage(text) {
+					// 处理 Markdown 图片语法 ![alt](url) 或 ![alt](url "title")
+					return text.replace(/!\[(.*?)\]\((.*?)(?:\s+"(.*?)")?\)/g, (match, alt, url, title) => {
+						const titleAttr = title ? ` title="${title}"` : '';
+						return `<img src="${url}" alt="${alt}"${titleAttr} style="max-height: 400px; max-width: 100%; object-fit: contain;">`;
+					});
+				}
+
+				function processMarkdownLink(text) {
+					// 处理 Markdown 链接语法 [text](url) 或 [text](url "title")
+					return text.replace(/\[(.*?)\]\((.*?)(?:\s+"(.*?)")?\)/g, (match, text, url, title) => {
+						const titleAttr = title ? ` title="${title}"` : '';
+						return `<a href="${url}"${titleAttr}>${text}</a>`;
+					});
+				}
+
+				function processCodeBlock(text) {
+					return text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+						const language = lang || 'plaintext';
+						return `<pre><code class="hljs ${language}">${code.trim()}</code></pre>`;
+					});
+				}
+
+				for (let i = 0; i < lines.length; i++) {
+					const line = lines[i].trim();
+					
+					if (line.startsWith('Note:')) {
+						// 处理演讲者注释
+						const note = line.substring(5).trim();
+						currentSlide += `<aside class="notes">${note}</aside>`;
+						continue;
+					}
+					
+					if (line.match(/^#{1,4}\s+/)) {
+						addListToSlide();
+						if (currentSlide) {
+							slides.push(`<section>${currentSlide}</section>`);
+						}
+						
+						const level = line.match(/^(#{1,4})/)[0].length;
+						const title = processMarkdownImage(processMarkdownLink(line.substring(level + 1)));
+						
+						switch(level) {
+							case 1:
+								currentSlide = `<h1 class="r-fit-text">${title}</h1>`;
+								break;
+							case 2:
+								currentSlide = `<h2 class="r-fit-text">${title}</h2>`;
+								break;
+							case 3:
+								currentSlide = `<h3>${title}</h3>`;
+								break;
+							case 4:
+								currentSlide = `<h4>${title}</h4>`;
+								break;
+						}
+					} else if (line.startsWith('- ')) {
+						isInList = true;
+						// 处理列表项中的图片和链接
+						listItems.push(processMarkdownImage(processMarkdownLink(line.substring(2))));
+					} else if (line === '') {
+						addListToSlide();
+					} else if (line) {
+						addListToSlide();
+						// 处理普通文本中的图片和链接
+						const processedLine = processCodeBlock(processMarkdownImage(processMarkdownLink(line)));
+						currentSlide += `<p class="fragment fade-in">${processedLine}</p>`;
+					}
+				}
+				
+				addListToSlide();
+				if (currentSlide) {
+					slides.push(`<section>${currentSlide}</section>`);
+				}
+
+				return slides;
+			}
+
+			function generatePresentationHTML(slides) {
+				const presentationTheme = localStorage.getItem('presentation-theme') || 'black';
+				const template = [
+					'<!doctype html>',
+					'<html>',
+					'<head>',
+					'    <meta charset="utf-8">',
+					'    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
+					'    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">',
+					'    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">',
+					'    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/' + presentationTheme + '.css">',
+					'    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/monokai.css">',
+					'</head>',
+					'<body>',
+					'    <div class="reveal">',
+					'        <div class="slides">',
+					slides.join('\n'),
+					'        </div>',
+					'    </div>',
+					'    <div class="theme-selector" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">',
+					'        <select onchange="updatePresentationTheme(this.value)">',
+					'            <option value="' + presentationTheme + '" selected>' + presentationTheme.charAt(0).toUpperCase() + presentationTheme.slice(1) + '</option>',
+					'            <option value="black">Black</option>',
+					'            <option value="white">White</option>',
+					'            <option value="league">League</option>',
+					'            <option value="sky">Sky</option>',
+					'            <option value="beige">Beige</option>',
+					'            <option value="simple">Simple</option>',
+					'            <option value="serif">Serif</option>',
+					'            <option value="blood">Blood</option>',
+					'            <option value="night">Night</option>',
+					'            <option value="moon">Moon</option>',
+					'            <option value="solarized">Solarized</option>',
+					'        </select>',
+					'    </div>',
+					'    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"><\/script>',
+					'    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js"><\/script>',
+					'    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"><\/script>',
+					'    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"><\/script>',
+					'    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/zoom/zoom.js"><\/script>',
+					'    <script>',
+					'function updatePresentationTheme(theme) {',
+					'        document.querySelector(\'link[href*="/theme/"]\').href = "https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/" + theme + ".css";',
+					'        localStorage.setItem("presentation-theme", theme);',
+					'    }',
+					'    document.addEventListener("DOMContentLoaded", async function() {',
+					'        await Promise.all([',
+					'            typeof RevealMarkdown !== "undefined",',
+					'            typeof RevealHighlight !== "undefined",',
+					'            typeof RevealNotes !== "undefined",',
+					'            typeof RevealZoom !== "undefined"',
+					'        ]);',
+					'        Reveal.initialize({',
+					'            controls: true,',
+					'            progress: true,',
+					'            center: false,',
+					'            hash: true,',
+					'            width: "100%",',
+					'            height: "100%",',
+					'            margin: 0.04,',
+					'            minScale: 0.2,',
+					'            maxScale: 1.5,',
+					'            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom ],',
+					'            keyboard: true,',
+					'            overview: true,',
+					'            touch: true,',
+					'            fragments: true,',
+					'            slideNumber: true,',
+					'            embedded: false,',
+					'            history: false,',
+					'            theme: "' + presentationTheme + '",',
+					'            transition: "slide"',
+					'        });',
+					'    });',
+					'    <\/script>',
+					'</body>',
+					'</html>'
+				].join('\n');
+				return template;
+			}
+
+			function log(message, type = 'info') {
+				const debugPanel = document.getElementById('debug-panel');
+				const time = new Date().toLocaleTimeString();
+				const logMessage = `
+					<div class="debug-entry debug-${type}">
+						<span>[${time}]</span>
+						<span>${message}</span>
+					</div>
+				`;
+				debugPanel.innerHTML += logMessage;
+				debugPanel.scrollTop = debugPanel.scrollHeight;
+			}
+
+			function saveFile(file, content) {
+				const files = JSON.parse(localStorage.getItem('markdown-files') || '{}');
+				files[file.name] = {
+					name: file.name,
+					content: content,
+					timestamp: new Date().toISOString()
+				};
+				localStorage.setItem('markdown-files', JSON.stringify(files));
+				updateFileList();
+			}
+
+			function loadSavedFiles() {
+				return JSON.parse(localStorage.getItem('markdown-files') || '{}');
+			}
+
+			function deleteFile(fileName) {
+				const files = loadSavedFiles();
+				delete files[fileName];
+				localStorage.setItem('markdown-files', JSON.stringify(files));
+				updateFileList();
+			}
+
+			function updateFileList() {
+				const fileList = document.getElementById('file-list');
+				const files = loadSavedFiles();
+				
+				fileList.innerHTML = Object.values(files).map(file => {
+					const date = new Date(file.timestamp).toLocaleString();
+					return [
+						'<div class="file-card">',
+						'    <div class="file-header">',
+						'        <span class="file-name">',
+						'            <i class="mdi mdi-file-document"></i>',
+						'            ' + file.name,
+						'        </span>',
+						'        <div class="file-actions">',
+						'            <button class="button button-primary" onclick="showPresentation(\'' + file.name + '\')">',
+						'                <i class="mdi mdi-play"></i>',
+						'            </button>',
+						'            <button class="button button-secondary" onclick="deleteFile(\'' + file.name + '\')">',
+						'                <i class="mdi mdi-delete"></i>',
+						'            </button>',
+						'        </div>',
+						'    </div>',
+						'    <div class="file-info">',
+						'        <i class="mdi mdi-clock"></i> ' + date,
+						'    </div>',
+						'</div>'
+					].join('\n');
+				}).join('');
+			}
+
+			function showPresentation(fileName) {
+				try {
+					const files = loadSavedFiles();
+					const file = files[fileName];
+					if (!file) {
+						throw new Error(`找不到文件: ${fileName}`);
+					}
+					
+					const slides = splitIntoSlides(file.content);
+					if (!slides.length) {
+						throw new Error('没有找到有效的幻灯片内容');
+					}
+					
+					const presentationHTML = generatePresentationHTML(slides);
+					const blob = new Blob([presentationHTML], { type: 'text/html' });
+					const url = URL.createObjectURL(blob);
+					
+					window.open(url, '_blank');
+					setTimeout(() => URL.revokeObjectURL(url), 1000);
+				} catch (error) {
+					log(`演示文稿加载失败: ${error.message}`, 'error');
+				}
+			}
+
+			document.getElementById('load-markdown').addEventListener('click', function() {
+				const fileInput = document.getElementById('markdown-file');
+				const file = fileInput.files[0];
+
+				if (file) {
+					const reader = new FileReader();
+					reader.onload = function(e) {
+						const content = e.target.result;
+						saveFile(file, content);
+						
+						const slides = splitIntoSlides(content);
+						const presentationHTML = generatePresentationHTML(slides);
+						
+						const blob = new Blob([presentationHTML], { type: 'text/html' });
+						const url = URL.createObjectURL(blob);
+						
+						window.open(url, '_blank');
+						setTimeout(() => URL.revokeObjectURL(url), 1000);
+					};
+					reader.readAsText(file);
+				}
+			});
+
+			window.addEventListener('load', function() {
+				updateFileList();
+				const theme = localStorage.getItem('preferred-theme') || 'black';
+				document.getElementById('theme-select').value = theme;
+			});
+
+			window.showPresentation = showPresentation;
+			window.deleteFile = deleteFile;
+
+			// 修改主题选择器的事件处理
+			document.getElementById('theme-select').addEventListener('change', function(e) {
+				const theme = e.target.value;
+				document.documentElement.setAttribute('data-theme', theme);
+				localStorage.setItem('app-theme', theme);
+			});
+
+			// 初始化主页主题
+			window.addEventListener('load', function() {
+				updateFileList();
+				const appTheme = localStorage.getItem('app-theme') || 'light';
+				document.documentElement.setAttribute('data-theme', appTheme);
+				document.getElementById('theme-select').value = appTheme;
+			});
+
+			// 添加文件拖放支持
+			document.addEventListener('dragover', (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+			});
+
+			document.addEventListener('drop', (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				
+				const files = e.dataTransfer.files;
+				if (files.length > 0 && files[0].name.match(/\.(md|markdown)$/)) {
+					document.getElementById('markdown-file').files = files;
+					document.getElementById('load-markdown').click();
+				} else {
+					log('请拖放 Markdown 文件', 'error');
+				}
 			});
 		</script>
 	</body>
