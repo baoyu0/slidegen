@@ -7,13 +7,15 @@
 		<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css" rel="stylesheet">
 		<style>
 			:root {
-				--primary-color: #2196F3;
-				--secondary-color: #87CEEB;
+				--primary-color: #3B82F6;
+				--secondary-color: #1F2937;
 				--success-color: #4CAF50;
 				--error-color: #ff6b6b;
-				--background-color: #f5f5f5;
-				--card-background: rgba(255, 255, 255, 0.9);
-				--text-color: #333;
+				--background-color: #111827;
+				--card-background: rgba(31, 41, 55, 0.95);
+				--text-color: #e5e7eb;
+				--border-color: #374151;
+				--hover-color: #4B5563;
 			}
 
 			:root[data-theme="light"] {
@@ -42,6 +44,7 @@
 				font-family: 'Microsoft YaHei', sans-serif;
 				background-color: var(--background-color);
 				color: var(--text-color);
+				min-height: 100vh;
 			}
 
 			.container {
@@ -58,16 +61,19 @@
 			}
 
 			.title {
-				font-size: 24px;
-				color: var(--primary-color);
+				font-size: 2.5rem;
+				color: var(--text-color);
+				text-align: center;
+				margin-bottom: 1rem;
 			}
 
 			.card {
 				background: var(--card-background);
+				border: 1px solid var(--border-color);
 				border-radius: 8px;
-				box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 				padding: 20px;
 				margin-bottom: 20px;
+				backdrop-filter: blur(10px);
 			}
 
 			.upload-section {
@@ -78,14 +84,14 @@
 			}
 
 			.button {
-				padding: 8px 16px;
+				padding: 10px 20px;
 				border: none;
-				border-radius: 4px;
+				border-radius: 6px;
 				cursor: pointer;
 				font-size: 14px;
 				display: flex;
 				align-items: center;
-				gap: 5px;
+				gap: 8px;
 				transition: all 0.3s ease;
 			}
 
@@ -95,13 +101,15 @@
 			}
 
 			.button-secondary {
-				background: var(--secondary-color);
-				color: white;
+				background: transparent;
+				border: 1px solid var(--border-color);
+				color: var(--text-color);
 			}
 
 			.button:hover {
 				opacity: 0.9;
 				transform: translateY(-1px);
+				background-color: var(--hover-color);
 			}
 
 			.file-list {
@@ -111,16 +119,16 @@
 			}
 
 			.file-card {
-				background: white;
-				border-radius: 8px;
+				background: var(--secondary-color);
+				border: 1px solid var(--border-color);
+				border-radius: 6px;
 				padding: 15px;
-				box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 				transition: all 0.3s ease;
 			}
 
 			.file-card:hover {
 				transform: translateY(-2px);
-				box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+				border-color: var(--primary-color);
 			}
 
 			.file-header {
@@ -151,8 +159,9 @@
 				right: 20px;
 				width: 300px;
 				max-height: 200px;
-				background: rgba(0, 0, 0, 0.8);
-				color: #fff;
+				background: var(--secondary-color);
+				border: 1px solid var(--border-color);
+				color: var(--text-color);
 				border-radius: 8px;
 				padding: 10px;
 				font-family: monospace;
@@ -245,12 +254,111 @@
 					page-break-after: avoid;
 				}
 			}
+
+			/* 1. 添加响应式布局 */
+			@media (max-width: 480px) {
+				.preview-section {
+					flex-direction: column;
+				}
+			}
+
+			/* 2. 添加深色模式过渡动画 */
+			:root {
+				transition: all 0.3s ease;
+			}
+
+			/* 3. 添加加载动画 */
+			.loading {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				/* 添加加载动画样式 */
+			}
+
+			.preview-container {
+				margin-top: 20px;
+			}
+
+			.preview-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 15px;
+			}
+
+			.preview-content {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 20px;
+				height: 500px;
+			}
+
+			.editor-pane, .preview-pane {
+				height: 100%;
+				overflow: auto;
+			}
+
+			.markdown-editor {
+				width: 100%;
+				height: 100%;
+				padding: 15px;
+				background-color: var(--secondary-color);
+				border: 1px solid var(--border-color);
+				border-radius: 6px;
+				color: var(--text-color);
+				font-family: 'Consolas', monospace;
+				resize: none;
+			}
+
+			.preview-slides {
+				height: 100%;
+				border: 1px solid var(--border-color);
+				border-radius: 6px;
+				padding: 15px;
+				background: var(--secondary-color);
+				color: var(--text-color);
+			}
+
+			@media (max-width: 768px) {
+				.preview-content {
+					grid-template-columns: 1fr;
+					height: auto;
+				}
+				
+				.editor-pane, .preview-pane {
+					height: 300px;
+				}
+			}
+
+			.template-select {
+				padding: 8px 12px;
+				background-color: var(--secondary-color);
+				border: 1px solid var(--border-color);
+				border-radius: 6px;
+				color: var(--text-color);
+				cursor: pointer;
+			}
+
+			.template-select:focus {
+				outline: none;
+				border-color: var(--primary-color);
+			}
+
+			.page-description {
+				text-align: center;
+				color: var(--text-color);
+				opacity: 0.8;
+				margin-bottom: 2rem;
+			}
 		</style>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
 	</head>
 	<body>
 		<div class="container">
 			<header class="header">
-				<h1 class="title">Markdown 演示文稿转换器</h1>
+				<h1 class="title">优雅的演示文稿创作工具</h1>
+				<p class="page-description">使用 Markdown，创建精美的演示文稿，让创作加倍简如</p>
 				<div class="theme-selector">
 					<select id="theme-select" class="theme-select">
 						<option value="light">浅色主题</option>
@@ -575,26 +683,19 @@
 
 			window.addEventListener('load', function() {
 				updateFileList();
-				const theme = localStorage.getItem('preferred-theme') || 'black';
-				document.getElementById('theme-select').value = theme;
+				const appTheme = localStorage.getItem('app-theme') || 'light';
+				document.documentElement.setAttribute('data-theme', appTheme);
+				document.getElementById('theme-select').value = appTheme;
 			});
 
 			window.showPresentation = showPresentation;
 			window.deleteFile = deleteFile;
 
-			// 修改主题选择器的事件处理
+			// 修改主题选择器事件处理
 			document.getElementById('theme-select').addEventListener('change', function(e) {
 				const theme = e.target.value;
 				document.documentElement.setAttribute('data-theme', theme);
 				localStorage.setItem('app-theme', theme);
-			});
-
-			// 初始化主页主题
-			window.addEventListener('load', function() {
-				updateFileList();
-				const appTheme = localStorage.getItem('app-theme') || 'light';
-				document.documentElement.setAttribute('data-theme', appTheme);
-				document.getElementById('theme-select').value = appTheme;
 			});
 
 			// 添加文件拖放支持
@@ -614,6 +715,280 @@
 				} else {
 					log('请拖放 Markdown 文件', 'error');
 				}
+			});
+
+			// 添加 Markdown 实时预览功能
+			function generatePreviewSection() {
+				return `
+					<div class="preview-container card">
+						<div class="preview-header">
+							<h2>编辑器</h2>
+							<div class="template-selector">
+								<select id="template-select" class="template-select">
+									<option value="">选择模板...</option>
+									<option value="basic">基础模板</option>
+									<option value="twoColumn">两栏布局</option>
+									<option value="imageGallery">图片展示</option>
+									<option value="codeDemo">代码演示</option>
+								</select>
+							</div>
+						</div>
+						<div class="preview-content">
+							<div class="editor-pane">
+								<textarea id="markdown-editor" class="markdown-editor" placeholder="在此输入 Markdown 内容..."></textarea>
+							</div>
+							<div class="preview-pane">
+								<div id="preview-slides" class="preview-slides"></div>
+							</div>
+						</div>
+					</div>
+				`;
+			}
+
+			// 添加幻灯片模板功能
+			const slideTemplates = {
+				basic: `# 演示文稿标题
+
+## 第一张幻灯片
+
+- 要点 1
+- 要点 2
+- 要点 3
+
+Note: 演讲者注释
+
+---
+
+## 第二张幻灯片
+
+这是正文内容
+
+* 列表项 1
+* 列表项 2`,
+
+				twoColumn: `# 两栏布局演示
+
+<div class="columns">
+<div class="column" style="float: left; width: 50%;">
+
+## 左侧内容
+
+- 项目 1
+- 项目 2
+- 项目 3
+
+</div>
+<div class="column" style="float: right; width: 50%;">
+
+## 右侧内容
+
+1. 编号 1
+2. 编号 2
+3. 编号 3
+
+</div>
+</div>`,
+
+				imageGallery: `# 图片展示
+
+## 图片展示模板
+
+![图片描述](图片URL)
+
+---
+
+## 多图布局
+
+<div class="image-grid">
+![图片1](URL1) | ![图片2](URL2)
+---|---
+![图片3](URL3) | ![图片4](URL4)
+</div>`,
+
+				codeDemo: `# 代码演示
+
+## 示例代码
+
+\`\`\`javascript
+function example() {
+    console.log("Hello World!");
+}
+\`\`\`
+
+---
+
+## 代码对比
+
+\`\`\`javascript [1-2|3-4]
+// 之前的代码
+let x = 1;
+// 改进后的代码
+let x = 2;
+\`\`\`
+`
+			};
+
+			// 1. 添加进度保存功能
+			function autoSave(content) {
+				localStorage.setItem('draft-content', content);
+				localStorage.setItem('last-save-time', new Date().toISOString());
+			}
+
+			// 2. 添加快捷键支持
+			document.addEventListener('keydown', function(e) {
+				if (e.ctrlKey && e.key === 's') {
+					e.preventDefault();
+					saveCurrentFile();
+				}
+			});
+
+			// 1. 添加文件缓存机制
+			const fileCache = new Map();
+
+			function getCachedFile(fileName) {
+				return fileCache.get(fileName);
+			}
+
+			// 2. 添加延迟加载
+			function lazyLoadPlugins() {
+				const plugins = [
+					'markdown',
+					'highlight',
+					'notes',
+					'zoom'
+				];
+				
+				return Promise.all(plugins.map(plugin => 
+					import(`https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/${plugin}/${plugin}.js`)
+				));
+			}
+
+			// 1. 添加文件类型检查
+			function validateFile(file) {
+				const allowedTypes = ['text/markdown', 'text/md'];
+				const maxSize = 5 * 1024 * 1024; // 5MB
+
+				if (!allowedTypes.includes(file.type)) {
+					throw new Error('不支持的文件类型');
+				}
+
+				if (file.size > maxSize) {
+					throw new Error('文件大小超过限制');
+				}
+			}
+
+			// 2. 添加内容安全策略
+			function sanitizeMarkdown(content) {
+				// 使用 DOMPurify 或其他库清理内容
+				return DOMPurify.sanitize(content);
+			}
+
+			// 1. 添加全局错误处理
+			window.addEventListener('error', function(e) {
+				log(`发生错误: ${e.message}`, 'error');
+				// 可以添加错误上报逻辑
+			});
+
+			// 2. 添加更友好的错误提示
+			function showError(message, type = 'error') {
+				const errorContainer = document.createElement('div');
+				errorContainer.className = `error-message ${type}`;
+				errorContainer.textContent = message;
+				document.body.appendChild(errorContainer);
+				
+				setTimeout(() => errorContainer.remove(), 3000);
+			}
+
+			// 在 body 的 main 部分添加预览区域
+			function generatePreviewSection() {
+				return `
+					<div class="preview-container card">
+						<div class="preview-header">
+							<h2>编辑器</h2>
+							<div class="template-selector">
+								<select id="template-select" class="template-select">
+									<option value="">选择模板...</option>
+									<option value="basic">基础模板</option>
+									<option value="twoColumn">两栏布局</option>
+									<option value="imageGallery">图片展示</option>
+									<option value="codeDemo">代码演示</option>
+								</select>
+							</div>
+						</div>
+						<div class="preview-content">
+							<div class="editor-pane">
+								<textarea id="markdown-editor" class="markdown-editor" placeholder="在此输入 Markdown 内容..."></textarea>
+							</div>
+							<div class="preview-pane">
+								<div id="preview-slides" class="preview-slides"></div>
+							</div>
+						</div>
+					</div>
+				`;
+			}
+
+			// 初始化编辑器和预览
+			function initializeEditor() {
+				// 添加预览区域到 DOM
+				const mainSection = document.querySelector('main');
+				mainSection.insertAdjacentHTML('beforeend', generatePreviewSection());
+				
+				const editor = document.getElementById('markdown-editor');
+				const templateSelect = document.getElementById('template-select');
+				
+				// 模板选择事件
+				templateSelect.addEventListener('change', (e) => {
+					if (e.target.value && slideTemplates[e.target.value]) {
+						editor.value = slideTemplates[e.target.value];
+						updatePreview(editor.value);
+					}
+				});
+				
+				// 实时预览
+				editor.addEventListener('input', debounce((e) => {
+					updatePreview(e.target.value);
+					// 自保存
+					autoSave(e.target.value);
+				}, 300));
+				
+				// 加载上次的草稿
+				const savedContent = localStorage.getItem('draft-content');
+				if (savedContent) {
+					editor.value = savedContent;
+					updatePreview(savedContent);
+				}
+			}
+
+			// 更新预览
+			function updatePreview(content) {
+				const previewContainer = document.getElementById('preview-slides');
+				const slides = splitIntoSlides(content);
+				previewContainer.innerHTML = slides.join('\n');
+			}
+
+			// 防抖函数
+			function debounce(func, wait) {
+				let timeout;
+				return function executedFunction(...args) {
+					const later = () => {
+						clearTimeout(timeout);
+						func(...args);
+					};
+					clearTimeout(timeout);
+					timeout = setTimeout(later, wait);
+				};
+			}
+
+			// 自动保存
+			function autoSave(content) {
+				localStorage.setItem('draft-content', content);
+				localStorage.setItem('last-save-time', new Date().toISOString());
+				log('内容已自动保存', 'info');
+			}
+
+			// 在页面加载时初始化编辑器
+			window.addEventListener('load', function() {
+				initializeEditor();
 			});
 		</script>
 	</body>

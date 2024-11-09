@@ -43,6 +43,21 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
   --r-selection-color: #fff;
   --r-overlay-element-bg-color: 0, 0, 0;
   --r-overlay-element-fg-color: 240, 240, 240;
+  --r-theme-primary: #3B82F6;
+  --r-theme-secondary: #1F2937;
+  --r-theme-font-family: 'Microsoft YaHei', sans-serif;
+  --r-theme-code-font: 'Source Code Pro', monospace;
+  --r-theme-success: #10B981;
+  --r-theme-warning: #F59E0B;
+  --r-theme-error: #EF4444;
+  --r-transition-duration: 0.3s;
+  --r-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --r-spacing-sm: 0.5rem;
+  --r-spacing-md: 1rem;
+  --r-spacing-lg: 2rem;
+  --r-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --r-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --r-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .reveal-viewport {

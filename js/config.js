@@ -325,6 +325,65 @@ export default {
 	dependencies: [],
 
 	// Plugin objects to register and use for this presentation
-	plugins: []
+	plugins: {
+		customAnimation: {
+			enabled: true,
+			duration: 800
+		},
+		customTheme: {
+			enabled: true,
+			vars: {
+				// 自定义主题变量
+			}
+		}
+	},
+
+	// 增加新的配置选项
+	performance: {
+		preloadSlides: 2,           // 预加载幻灯片数量
+		minImageSize: 10240,        // 小图片不做懒加载的阈值(10KB)
+		useWebP: true,              // 支持WebP图片格式
+		enableCaching: true,        // 启用资源缓存
+		prefetch: true,             // 启用资源预加载
+		renderOptimization: {
+			batchUpdates: true,       // 启用批量更新
+			debounceDelay: 16,        // 防抖延迟时间(ms)
+			maxFPS: 60                // 最大帧率
+		},
+		memoryManagement: {
+			maxCachedSlides: 10,      // 最大缓存幻灯片数量
+			unloadDistance: 5         // 超出此距离的幻灯片将被卸载
+		}
+	},
+
+	mobile: {
+		scaleContent: true,
+		touchGestures: true,
+		reduceMotion: true
+	},
+
+	accessibility: {
+		announceSlides: true,
+		keyboardNav: true,
+		highContrast: false
+	},
+
+	// 动画相关配置
+	animation: {
+		defaultDuration: 800,       // 默认动画持续时间
+		defaultEasing: 'ease',      // 默认缓动函数
+		parallax: false,            // 是否启用视差效果
+		customAnimations: {}        // 自定义动画配置
+	},
+
+	// 主题相关配置
+	theme: {
+		customVariables: {          // 自定义主题变量
+			primary: '#3B82F6',
+			secondary: '#1F2937'
+		},
+		transitions: true,          // 是否启用过渡动画
+		shadows: true               // 是否启用阴影效果
+	}
 
 }

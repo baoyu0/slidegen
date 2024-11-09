@@ -162,6 +162,26 @@ export default function( revealElement, options ) {
 		// Register plugins and load dependencies, then move on to #start()
 		plugins.load( config.plugins, config.dependencies ).then( start );
 
+		const resourceLoader = optimizeResourceLoading();
+		const renderer = optimizeRendering();
+		
+		// 初始化资源加载优化
+		resourceLoader.init();
+		
+		// 监听幻灯片切换事件
+		Reveal.addEventListener('slidechanged', () => {
+			renderer.updateSlidesVisibility();
+			resourceLoader.preloadManager.processQueue();
+		});
+		
+		// 监听窗口大小变化
+		window.addEventListener('resize', () => {
+			renderer.scheduleRender(() => {
+				updateScale();
+				renderer.updateSlidesVisibility();
+			});
+		}, { passive: true });
+
 		return new Promise( resolve => Reveal.on( 'ready', resolve ) );
 
 	}
@@ -1192,7 +1212,7 @@ export default function( revealElement, options ) {
 	 */
 	function getPreviousVerticalIndex( stack ) {
 
-		if( typeof stack === 'object' && typeof stack.setAttribute === 'function' && stack.classList.contains( 'stack' ) ) {
+		if( typeof stack === 'object' && typeof stack.setAttribute === 'function' && stack.classList.contains( 'stack' ) ) ) {
 			// Prefer manually defined start-indexv
 			const attributeName = stack.hasAttribute( 'data-start-indexv' ) ? 'data-start-indexv' : 'data-previous-indexv';
 
@@ -2939,111 +2959,111 @@ export default function( revealElement, options ) {
 		isReady: () => ready,
 
 		// Slide preloading
-		loadSlide: slideContent.load.bind( slideContent ),
-		unloadSlide: slideContent.unload.bind( slideContent ),
+			loadSlide: slideContent.load.bind( slideContent ),
+			unloadSlide: slideContent.unload.bind( slideContent ),
 
 		// Start/stop all media inside of the current slide
-		startEmbeddedContent: () => slideContent.startEmbeddedContent( currentSlide ),
-		stopEmbeddedContent: () => slideContent.stopEmbeddedContent( currentSlide, { unloadIframes: false } ),
+			startEmbeddedContent: () => slideContent.startEmbeddedContent( currentSlide ),
+			stopEmbeddedContent: () => slideContent.stopEmbeddedContent( currentSlide, { unloadIframes: false } ),
 
 		// Preview management
-		showPreview,
-		hidePreview: closeOverlay,
+			showPreview,
+			hidePreview: closeOverlay,
 
 		// Adds or removes all internal event listeners
-		addEventListeners,
-		removeEventListeners,
-		dispatchEvent,
+			addEventListeners,
+			removeEventListeners,
+			dispatchEvent,
 
 		// Facility for persisting and restoring the presentation state
-		getState,
-		setState,
+			getState,
+			setState,
 
 		// Presentation progress on range of 0-1
-		getProgress,
+			getProgress,
 
 		// Returns the indices of the current, or specified, slide
-		getIndices,
+			getIndices,
 
 		// Returns an Array of key:value maps of the attributes of each
 		// slide in the deck
-		getSlidesAttributes,
+			getSlidesAttributes,
 
 		// Returns the number of slides that we have passed
-		getSlidePastCount,
+			getSlidePastCount,
 
 		// Returns the total number of slides
-		getTotalSlides,
+			getTotalSlides,
 
 		// Returns the slide element at the specified index
-		getSlide,
+			getSlide,
 
 		// Returns the previous slide element, may be null
-		getPreviousSlide: () => previousSlide,
+			getPreviousSlide: () => previousSlide,
 
 		// Returns the current slide element
-		getCurrentSlide: () => currentSlide,
+			getCurrentSlide: () => currentSlide,
 
 		// Returns the slide background element at the specified index
-		getSlideBackground,
+			getSlideBackground,
 
 		// Returns the speaker notes string for a slide, or null
-		getSlideNotes: notes.getSlideNotes.bind( notes ),
+			getSlideNotes: notes.getSlideNotes.bind( notes ),
 
 		// Returns an Array of all slides
-		getSlides,
+			getSlides,
 
 		// Returns an array with all horizontal/vertical slides in the deck
-		getHorizontalSlides,
-		getVerticalSlides,
+			getHorizontalSlides,
+			getVerticalSlides,
 
 		// Checks if the presentation contains two or more horizontal
 		// and vertical slides
-		hasHorizontalSlides,
-		hasVerticalSlides,
+			hasHorizontalSlides,
+			hasVerticalSlides,
 
 		// Checks if the deck has navigated on either axis at least once
-		hasNavigatedHorizontally: () => navigationHistory.hasNavigatedHorizontally,
-		hasNavigatedVertically: () => navigationHistory.hasNavigatedVertically,
+			hasNavigatedHorizontally: () => navigationHistory.hasNavigatedHorizontally,
+			hasNavigatedVertically: () => navigationHistory.hasNavigatedVertically,
 
 		shouldAutoAnimateBetween,
 
 		// Adds/removes a custom key binding
-		addKeyBinding: keyboard.addKeyBinding.bind( keyboard ),
-		removeKeyBinding: keyboard.removeKeyBinding.bind( keyboard ),
+			addKeyBinding: keyboard.addKeyBinding.bind( keyboard ),
+			removeKeyBinding: keyboard.removeKeyBinding.bind( keyboard ),
 
 		// Programmatically triggers a keyboard event
-		triggerKey: keyboard.triggerKey.bind( keyboard ),
+			triggerKey: keyboard.triggerKey.bind( keyboard ),
 
 		// Registers a new shortcut to include in the help overlay
-		registerKeyboardShortcut: keyboard.registerKeyboardShortcut.bind( keyboard ),
+			registerKeyboardShortcut: keyboard.registerKeyboardShortcut.bind( keyboard ),
 
 		getComputedSlideSize,
 		setCurrentScrollPage,
 
 		// Returns the current scale of the presentation content
-		getScale: () => scale,
+			getScale: () => scale,
 
 		// Returns the current configuration object
-		getConfig: () => config,
+			getConfig: () => config,
 
 		// Helper method, retrieves query string as a key:value map
-		getQueryHash: Util.getQueryHash,
+			getQueryHash: Util.getQueryHash,
 
 		// Returns the path to the current slide as represented in the URL
-		getSlidePath: location.getHash.bind( location ),
+			getSlidePath: location.getHash.bind( location ),
 
 		// Returns reveal.js DOM elements
-		getRevealElement: () => revealElement,
-		getSlidesElement: () => dom.slides,
-		getViewportElement: () => dom.viewport,
-		getBackgroundsElement: () => backgrounds.element,
+			getRevealElement: () => revealElement,
+			getSlidesElement: () => dom.slides,
+			getViewportElement: () => dom.viewport,
+			getBackgroundsElement: () => backgrounds.element,
 
 		// API for registering and retrieving plugins
-		registerPlugin: plugins.registerPlugin.bind( plugins ),
-		hasPlugin: plugins.hasPlugin.bind( plugins ),
-		getPlugin: plugins.getPlugin.bind( plugins ),
-		getPlugins: plugins.getRegisteredPlugins.bind( plugins )
+			registerPlugin: plugins.registerPlugin.bind( plugins ),
+			hasPlugin: plugins.hasPlugin.bind( plugins ),
+			getPlugin: plugins.getPlugin.bind( plugins ),
+			getPlugins: plugins.getRegisteredPlugins.bind( plugins )
 
 	};
 
@@ -3052,29 +3072,373 @@ export default function( revealElement, options ) {
 		...API,
 
 		// Methods for announcing content to screen readers
-		announceStatus,
-		getStatusText,
+			announceStatus,
+			getStatusText,
 
 		// Controllers
-		focus,
-		scroll: scrollView,
-		progress,
-		controls,
-		location,
-		overview,
-		fragments,
-		backgrounds,
-		slideContent,
-		slideNumber,
+			focus,
+			scroll: scrollView,
+			progress,
+			controls,
+			location,
+			overview,
+			fragments,
+			backgrounds,
+			slideContent,
+			slideNumber,
 
 		onUserInput,
-		closeOverlay,
-		updateSlidesVisibility,
-		layoutSlideContents,
-		transformSlides,
-		cueAutoSlide,
-		cancelAutoSlide
+			closeOverlay,
+			updateSlidesVisibility,
+			layoutSlideContents,
+			transformSlides,
+			cueAutoSlide,
+			cancelAutoSlide
 	} );
+
+	// 优化图片和资源加载
+	function lazyLoadResources() {
+		// 改进现有的懒加载实现
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if(entry.isIntersecting) {
+					const element = entry.target;
+					if(element.tagName === 'IMG') {
+						element.src = element.dataset.src;
+					} else if(element.dataset.backgroundImage) {
+						element.style.backgroundImage = `url(${element.dataset.backgroundImage})`;
+					}
+					observer.unobserve(element);
+				}
+			});
+		}, {
+			rootMargin: '50px 0px' // 预加载
+		});
+		
+		// 同时处理图片和背景图
+		document.querySelectorAll('[data-src], [data-background-image]')
+			.forEach(element => observer.observe(element));
+	}
+
+	// 增加手势支持
+	function initTouchEvents() {
+		const touchThreshold = 50;
+		let touchStartX = 0;
+		let touchStartY = 0;
+		
+		dom.wrapper.addEventListener('touchstart', e => {
+			touchStartX = e.touches[0].clientX;
+			touchStartY = e.touches[0].clientY;
+		});
+		
+		dom.wrapper.addEventListener('touchmove', e => {
+			// 增加更流畅的手势切换逻辑
+		});
+	}
+
+	// 优化渲染性能
+	function optimizeRendering() {
+		// 使用 requestAnimationFrame 优化动画
+		let ticking = false;
+		
+		function updateSlides(timestamp) {
+			if (!ticking) {
+				requestAnimationFrame((timestamp) => {
+					updateSlidesVisibility();
+					ticking = false;
+				});
+				ticking = true;
+			}
+		}
+		
+		// 优化事件监听
+		window.addEventListener('scroll', updateSlides, { passive: true });
+	}
+
+	// 优化资源加载策略
+	function optimizeResourceLoading() {
+		// 预加载策略
+		const preloadManager = {
+			// 优先级队列
+			queue: new Map(),
+			
+			// 添加资源到队列
+			addToQueue(element, priority) {
+				this.queue.set(element, {
+					priority,
+					loaded: false
+				});
+			},
+			
+			// 处理队列
+			processQueue() {
+				const sortedElements = [...this.queue.entries()]
+					.sort((a, b) => b[1].priority - a[1].priority)
+					.filter(([_, info]) => !info.loaded)
+					.map(([element]) => element);
+				
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach(entry => {
+						if(entry.isIntersecting) {
+							const element = entry.target;
+							this.loadResource(element);
+							observer.unobserve(element);
+						}
+					});
+				}, {
+					rootMargin: '100px 0px'
+				});
+				
+				sortedElements.forEach(element => observer.observe(element));
+			},
+			
+			// 加载资源
+			loadResource(element) {
+				if(element.tagName === 'IMG') {
+					element.src = element.dataset.src;
+				} else if(element.dataset.background) {
+					element.style.background = element.dataset.background;
+				}
+				this.queue.get(element).loaded = true;
+			}
+		};
+
+		// 初始化资源加载
+		function initResourceLoading() {
+			// 当前和下一张幻灯片的资源优先级最高
+			document.querySelectorAll('.present img[data-src], .present [data-background]')
+				.forEach(element => preloadManager.addToQueue(element, 3));
+			
+			// 其他可见幻灯片资源次之
+			document.querySelectorAll('.slides section:not(.present) img[data-src], [data-background]')
+				.forEach(element => preloadManager.addToQueue(element, 2));
+			
+			preloadManager.processQueue();
+		}
+
+		return {
+			init: initResourceLoading,
+			preloadManager
+		};
+	}
+
+	// 优化交互体验
+	function enhanceUserExperience() {
+		// 优化键盘导航
+		const keyboardNavigation = () => {
+			document.addEventListener('keydown', (event) => {
+				if (event.key === 'ArrowRight' || event.key === 'Space') {
+					next();
+				} else if (event.key === 'ArrowLeft') {
+					prev();
+				}
+			});
+		};
+
+		// 优化过渡动画
+		const enhanceTransitions = () => {
+			const slides = document.querySelectorAll('.slides section');
+			slides.forEach(slide => {
+				slide.style.transition = 'all var(--r-transition-duration) var(--r-transition-timing)';
+			});
+		};
+
+		return {
+			keyboardNavigation,
+			enhanceTransitions
+		};
+	}
+
+	// 添加内存管理和资源优化
+	function memoryOptimization() {
+		const resourceCache = new WeakMap();
+		const config = Reveal.getConfig().performance.memoryManagement;
+		let isProcessing = false;
+
+		// 资源管理器
+		const resourceManager = {
+			// 资源加载优先级队列
+			loadQueue: new Map(),
+			
+			// 添加资源到加载队列
+			enqueue(resource, priority) {
+				this.loadQueue.set(resource, {
+					priority,
+					timestamp: Date.now()
+				});
+				this.processQueue();
+			},
+
+			// 处理加载队列
+			async processQueue() {
+				if (isProcessing) return;
+				isProcessing = true;
+
+				try {
+					const sortedResources = [...this.loadQueue.entries()]
+						.sort((a, b) => b[1].priority - a[1].priority);
+
+					for (const [resource, info] of sortedResources) {
+						if (!this.shouldLoad(resource)) continue;
+						
+						await this.loadResource(resource);
+						this.loadQueue.delete(resource);
+					}
+				} finally {
+					isProcessing = false;
+				}
+			},
+
+			// 判断是否需要加载资源
+			shouldLoad(resource) {
+				const slideElement = resource.closest('.slides section');
+				if (!slideElement) return false;
+
+				const currentIndex = Reveal.getIndices();
+				const slideIndices = Reveal.getIndices(slideElement);
+				
+				return Math.abs(slideIndices.h - currentIndex.h) <= config.preloadSlides;
+			},
+
+			// 加载资源
+			async loadResource(resource) {
+				try {
+					if (resource instanceof HTMLImageElement) {
+						await this.loadImage(resource);
+					} else if (resource instanceof HTMLMediaElement) {
+						await this.loadMedia(resource);
+					}
+				} catch (error) {
+					console.error('Resource loading failed:', error);
+				}
+			},
+
+			// 加载图片
+			loadImage(img) {
+				return new Promise((resolve, reject) => {
+					if (img.dataset.src) {
+						const tempImage = new Image();
+						tempImage.onload = () => {
+							img.src = img.dataset.src;
+							resolve();
+						};
+						tempImage.onerror = reject;
+						tempImage.src = img.dataset.src;
+					} else {
+						resolve();
+					}
+				});
+			},
+
+			// 加载媒体
+			loadMedia(media) {
+				return new Promise((resolve, reject) => {
+					if (media.dataset.src) {
+						media.src = media.dataset.src;
+						media.load();
+						media.onloadeddata = resolve;
+						media.onerror = reject;
+					} else {
+						resolve();
+					}
+				});
+			}
+		};
+
+		// 资源释放器
+		const resourceReleaser = {
+			// 释放远离当前幻灯片的资源
+			releaseDistantResources() {
+				const currentIndex = Reveal.getIndices();
+				const allSlides = document.querySelectorAll('.slides section');
+
+				allSlides.forEach(slide => {
+					const slideIndices = Reveal.getIndices(slide);
+					const distance = Math.abs(slideIndices.h - currentIndex.h);
+
+					if (distance > config.unloadDistance) {
+						this.releaseSlideResources(slide);
+					}
+				});
+			},
+
+			// 释放单个幻灯片的资源
+			releaseSlideResources(slide) {
+				// 释放图片资源
+				slide.querySelectorAll('img[src]').forEach(img => {
+					if (!resourceCache.has(img)) {
+						resourceCache.set(img, img.src);
+					}
+					img.src = '';
+				});
+
+				// 释放媒体资源
+				slide.querySelectorAll('video, audio').forEach(media => {
+					if (!resourceCache.has(media)) {
+						resourceCache.set(media, {
+							src: media.src,
+							currentTime: media.currentTime
+						});
+					}
+					media.pause();
+					media.src = '';
+					media.load();
+				});
+			},
+
+			// 恢复资源
+			restoreResources(slide) {
+				// 恢复图片
+				slide.querySelectorAll('img').forEach(img => {
+					const cachedSrc = resourceCache.get(img);
+					if (cachedSrc) {
+						img.src = cachedSrc;
+					}
+				});
+
+				// 恢复媒体
+				slide.querySelectorAll('video, audio').forEach(media => {
+					const cached = resourceCache.get(media);
+					if (cached) {
+						media.src = cached.src;
+						media.currentTime = cached.currentTime;
+					}
+				});
+			}
+		};
+
+		// 初始化内存优化
+		function initialize() {
+			// 监听幻灯片切换事件
+			Reveal.addEventListener('slidechanged', event => {
+				const { currentSlide, previousSlide } = event;
+				
+				// 释放之前幻灯片的资源
+				if (previousSlide) {
+					resourceReleaser.releaseSlideResources(previousSlide);
+				}
+				
+				// 加载当前幻灯片的资源
+				if (currentSlide) {
+					resourceReleaser.restoreResources(currentSlide);
+					// 预加载下一张幻灯片的资源
+					const nextSlide = currentSlide.nextElementSibling;
+					if (nextSlide) {
+						resourceManager.enqueue(nextSlide, 2);
+					}
+				}
+				
+				// 定期释放远离的资源
+				resourceReleaser.releaseDistantResources();
+			});
+		}
+
+		return {
+			initialize,
+			resourceManager,
+			resourceReleaser
+		};
+	}
 
 	return API;
 
