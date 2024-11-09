@@ -2155,3 +2155,340 @@ $notesWidthPercent: 25%;
   }
 }
 
+// 添加主题切换动画
+.reveal {
+  transition: background-color var(--r-transition-duration) var(--r-transition-timing),
+              color var(--r-transition-duration) var(--r-transition-timing);
+              
+  // 优化响应式布局
+  @media screen and (max-width: 768px) {
+    --r-main-font-size: 32px;
+    --r-heading1-size: 2.5em;
+    --r-heading2-size: 1.8em;
+    --r-heading3-size: 1.4em;
+    
+    .slides section {
+      padding: var(--r-spacing-md);
+    }
+    
+    pre {
+      font-size: 0.8em;
+      max-height: 400px;
+    }
+  }
+  
+  // 添加深色模式支持
+  &[data-theme="dark"] {
+    --r-background-color: #1a1a1a;
+    --r-main-color: #e0e0e0;
+    --r-heading-color: #fff;
+    --r-link-color: #64B5F6;
+  }
+}
+
+// 增强主题系统
+.reveal {
+  // 添加更多主题变量
+  --r-theme-radius-sm: 4px;
+  --r-theme-radius-md: 8px;
+  --r-theme-radius-lg: 16px;
+  
+  // 增强动画系统
+  --r-animation-duration-fast: 150ms;
+  --r-animation-duration-normal: 300ms;
+  --r-animation-duration-slow: 500ms;
+  --r-animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  // 优化打印样式
+  @media print {
+    .slides section {
+      page-break-inside: avoid;
+      page-break-after: always;
+    }
+    
+    // 优化打印时的代码块显示
+    pre code {
+      overflow: visible;
+      word-wrap: break-word;
+    }
+  }
+  
+  // 增强移动端适配
+  @media (max-width: 480px) {
+    --r-heading1-size: 1.8em;
+    --r-heading2-size: 1.4em;
+    --r-heading3-size: 1.2em;
+    
+    .controls {
+      display: none;
+    }
+  }
+}
+
+// 增强主题系统
+.reveal {
+  // 主题切换动画
+  transition: all var(--r-transition-duration) var(--r-transition-timing);
+  
+  // 增强代码块样式
+  pre {
+    box-shadow: var(--r-shadow-md);
+    border-radius: var(--r-theme-radius-md);
+    
+    code {
+      padding: var(--r-spacing-md);
+      line-height: 1.5;
+      font-family: var(--r-theme-code-font);
+      
+      // 代码高亮增强
+      .hljs-keyword { color: var(--r-theme-primary); }
+      .hljs-string { color: var(--r-theme-success); }
+      .hljs-comment { color: var(--r-theme-secondary); }
+    }
+  }
+  
+  // 增强图片显示
+  img {
+    border-radius: var(--r-theme-radius-sm);
+    box-shadow: var(--r-shadow-sm);
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: var(--r-shadow-lg);
+    }
+  }
+  
+  // 优化标题样式
+  h1, h2, h3 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    
+    &::after {
+      content: '';
+      display: block;
+      height: 2px;
+      width: 2em;
+      background: var(--r-theme-primary);
+      margin-top: 0.2em;
+      border-radius: 2px;
+    }
+  }
+  
+  // 优化列表样式
+  ul, ol {
+    li {
+      margin: 0.5em 0;
+      padding-left: 0.5em;
+      
+      &::marker {
+        color: var(--r-theme-primary);
+      }
+    }
+  }
+  
+  // 优化引用样式
+  blockquote {
+    border-left: 4px solid var(--r-theme-primary);
+    background: rgba(var(--r-theme-primary-rgb), 0.1);
+    margin: 1em 0;
+    padding: 1em;
+    border-radius: 0 var(--r-theme-radius-md) var(--r-theme-radius-md) 0;
+  }
+  
+  // 优化表格样式
+  table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--r-theme-radius-md);
+    overflow: hidden;
+    margin: 1em 0;
+    
+    th {
+      background: var(--r-theme-primary);
+      color: white;
+      font-weight: 600;
+    }
+    
+    td, th {
+      padding: 0.75em 1em;
+      border: 1px solid var(--r-border-color);
+    }
+    
+    tr:nth-child(even) {
+      background: rgba(var(--r-theme-primary-rgb), 0.05);
+    }
+  }
+  
+  // 优化链接样式
+  a {
+    color: var(--r-theme-primary);
+    text-decoration: none;
+    border-bottom: 1px dashed currentColor;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      color: var(--r-theme-secondary);
+      border-bottom-style: solid;
+    }
+  }
+}
+
+.reveal {
+  // 优化标题样式
+  .title-slide {
+    h1 {
+      font-size: 3.5em;
+      margin-bottom: 0.5em;
+      color: var(--r-heading-color);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      
+      &.animate-title {
+        animation: slideInDown 1s ease-out;
+      }
+    }
+    
+    // 优化图标样式
+    .globe-icon {
+      width: 120px;
+      height: 120px;
+      opacity: 0.9;
+      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+      
+      &.animate-icon {
+        animation: rotateIn 1.5s ease-out;
+      }
+    }
+  }
+  
+  // 添加动画
+  @keyframes slideInDown {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes rotateIn {
+    from {
+      transform: translateY(-50%) rotate(-180deg);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(-50%) rotate(0);
+      opacity: 0.9;
+    }
+  }
+  
+  // 优化背景渐变
+  .slides section {
+    background: linear-gradient(
+      135deg,
+      var(--r-background-color) 0%,
+      rgba(173, 217, 228, 0.8) 100%
+    );
+  }
+}
+
+// 每个主题应该有自己独立的变量集
+.reveal {
+  // Blood主题变量
+  &[data-theme="blood"] {
+    --r-background-color: #222;
+    --r-main-color: #eee;
+    --r-heading-color: #bb2d3b;
+    --r-link-color: #e74c3c;
+    --r-heading-font: 'Ubuntu', sans-serif;
+    --r-main-font: 'Lato', sans-serif;
+    --r-code-font: 'Fira Code', monospace;
+    --r-heading-text-transform: uppercase;
+    --r-heading-text-shadow: 2px 2px 2px #222;
+  }
+
+  // Beige主题变量
+  &[data-theme="beige"] {
+    --r-background-color: #f5f5dc;
+    --r-main-color: #333;
+    --r-heading-color: #383d3d;
+    --r-link-color: #51483d;
+    --r-heading-font: 'Palatino Linotype', serif;
+    --r-main-font: 'Palatino', serif;
+    --r-code-font: 'Source Code Pro', monospace;
+    --r-heading-text-transform: none;
+    --r-heading-text-shadow: none;
+  }
+
+  // Sky主题变量
+  &[data-theme="sky"] {
+    --r-background-color: #f7fbfc;
+    --r-main-color: #333;
+    --r-heading-color: #2196F3;
+    --r-link-color: #3b759e;
+    --r-heading-font: 'Quicksand', sans-serif;
+    --r-main-font: 'Open Sans', sans-serif;
+    --r-code-font: 'Ubuntu Mono', monospace;
+    --r-heading-text-transform: none;
+    --r-heading-text-shadow: none;
+  }
+}
+
+.reveal {
+  // 自定义动画
+  .custom-animations {
+    // 淡入上升
+    &.fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all var(--r-animation-duration-normal) var(--r-animation-timing-function);
+      
+      &.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    // 缩放淡入
+    &.scale-fade {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all var(--r-animation-duration-normal) var(--r-animation-timing-function);
+      
+      &.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    // 旋转进入
+    &.rotate-in {
+      opacity: 0;
+      transform: rotate(-180deg);
+      transition: all var(--r-animation-duration-slow) var(--r-animation-timing-function);
+      
+      &.visible {
+        opacity: 1;
+        transform: rotate(0);
+      }
+    }
+  }
+
+  // 增强过渡效果
+  .slide-transition {
+    &[data-transition="zoom"] {
+      transition: transform var(--r-animation-duration-normal) var(--r-animation-timing-function);
+      
+      &.past {
+        transform: scale(0.1) rotate(720deg);
+      }
+      
+      &.future {
+        transform: scale(2) rotate(-720deg);
+      }
+    }
+  }
+}
+

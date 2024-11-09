@@ -3,993 +3,399 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Markdown 演示文稿转换器</title>
+		<title>Slidegen - 优雅的演示文稿创作工具</title>
 		<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css" rel="stylesheet">
 		<style>
 			:root {
-				--primary-color: #3B82F6;
-				--secondary-color: #1F2937;
-				--success-color: #4CAF50;
-				--error-color: #ff6b6b;
+				--primary-color: #6366F1;
+				--surface-color: #1F2937;
 				--background-color: #111827;
-				--card-background: rgba(31, 41, 55, 0.95);
-				--text-color: #e5e7eb;
-				--border-color: #374151;
-				--hover-color: #4B5563;
-			}
-
-			:root[data-theme="light"] {
-				--primary-color: #2196F3;
-				--secondary-color: #87CEEB;
-				--success-color: #4CAF50;
-				--error-color: #ff6b6b;
-				--background-color: #f5f5f5;
-				--card-background: rgba(255, 255, 255, 0.9);
-				--text-color: #333;
-			}
-
-			:root[data-theme="dark"] {
-				--primary-color: #64B5F6;
-				--secondary-color: #B3E5FC;
-				--success-color: #81C784;
-				--error-color: #ff8a8a;
-				--background-color: #1a1a1a;
-				--card-background: rgba(30, 30, 30, 0.9);
-				--text-color: #e0e0e0;
+				--text-primary: #F9FAFB;
+				--text-secondary: #E5E7EB;
+				--accent-color: #10B981;
+				--shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+				--radius-md: 0.5rem;
 			}
 
 			body {
 				margin: 0;
-				padding: 20px;
+				padding: 0;
 				font-family: 'Microsoft YaHei', sans-serif;
-				background-color: var(--background-color);
-				color: var(--text-color);
+				background: var(--background-color);
+				color: var(--text-primary);
 				min-height: 100vh;
 			}
 
-			.container {
-				max-width: 1200px;
-				margin: 0 auto;
-				padding: 20px;
-			}
-
 			.header {
+				padding: 1rem 2rem;
 				display: flex;
-				justify-content: space-between;
 				align-items: center;
-				margin-bottom: 30px;
+				justify-content: space-between;
+				background: var(--surface-color);
+				box-shadow: var(--shadow-sm);
 			}
 
-			.title {
-				font-size: 2.5rem;
-				color: var(--text-color);
-				text-align: center;
-				margin-bottom: 1rem;
+			.logo {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				color: var(--text-primary);
+				text-decoration: none;
+				font-size: 1.25rem;
+				font-weight: 600;
 			}
 
-			.card {
-				background: var(--card-background);
-				border: 1px solid var(--border-color);
-				border-radius: 8px;
-				padding: 20px;
-				margin-bottom: 20px;
-				backdrop-filter: blur(10px);
+			.main-content {
+				max-width: 1200px;
+				margin: 2rem auto;
+				padding: 0 2rem;
+				display: grid;
+				gap: 2rem;
 			}
 
 			.upload-section {
-				display: flex;
-				gap: 10px;
-				align-items: center;
-				margin-bottom: 20px;
+				background: var(--surface-color);
+				border-radius: var(--radius-md);
+				padding: 3rem;
+				text-align: center;
+				position: relative;
+				overflow: hidden;
 			}
 
-			.button {
-				padding: 10px 20px;
-				border: none;
-				border-radius: 6px;
+			.upload-area {
+				border: 2px dashed var(--text-secondary);
+				border-radius: var(--radius-md);
+				padding: 2rem;
 				cursor: pointer;
-				font-size: 14px;
-				display: flex;
-				align-items: center;
-				gap: 8px;
 				transition: all 0.3s ease;
 			}
 
-			.button-primary {
-				background: var(--primary-color);
-				color: white;
+			.upload-area:hover {
+				border-color: var(--primary-color);
+				background: rgba(99, 102, 241, 0.1);
 			}
 
-			.button-secondary {
-				background: transparent;
-				border: 1px solid var(--border-color);
-				color: var(--text-color);
-			}
-
-			.button:hover {
-				opacity: 0.9;
-				transform: translateY(-1px);
-				background-color: var(--hover-color);
+			.upload-icon {
+				font-size: 3rem;
+				color: var(--primary-color);
+				margin-bottom: 1rem;
 			}
 
 			.file-list {
-				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-				gap: 20px;
+				background: var(--surface-color);
+				border-radius: var(--radius-md);
+				overflow: hidden;
 			}
 
-			.file-card {
-				background: var(--secondary-color);
-				border: 1px solid var(--border-color);
-				border-radius: 6px;
-				padding: 15px;
-				transition: all 0.3s ease;
-			}
-
-			.file-card:hover {
-				transform: translateY(-2px);
-				border-color: var(--primary-color);
-			}
-
-			.file-header {
+			.file-item {
 				display: flex;
-				justify-content: space-between;
 				align-items: center;
-				margin-bottom: 10px;
+				justify-content: space-between;
+				padding: 1rem;
+				border-bottom: 1px solid rgba(229, 231, 235, 0.1);
+			}
+
+			.file-item:last-child {
+				border-bottom: none;
 			}
 
 			.file-name {
-				font-weight: bold;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				color: var(--text-primary);
+			}
+
+			.file-name i {
 				color: var(--primary-color);
 			}
 
 			.file-actions {
 				display: flex;
-				gap: 10px;
+				gap: 0.5rem;
 			}
 
-			.file-info {
-				font-size: 12px;
-				color: #666;
+			.btn {
+				padding: 0.5rem 1rem;
+				border: none;
+				border-radius: var(--radius-md);
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				font-size: 0.875rem;
+				transition: all 0.2s;
 			}
 
-			#debug-panel {
+			.btn-preview {
+				background: var(--primary-color);
+				color: white;
+			}
+
+			.btn-preview:hover {
+				background: #4F46E5;
+			}
+
+			.btn-delete {
+				background: #EF4444;
+				color: white;
+			}
+
+			.btn-delete:hover {
+				background: #DC2626;
+			}
+
+			.description {
+				color: var(--text-secondary);
+				margin: 0.5rem 0;
+				font-size: 0.875rem;
+			}
+
+			@keyframes fadeIn {
+				from { opacity: 0; transform: translateY(10px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+
+			@keyframes fadeOut {
+				from { opacity: 1; transform: translateY(0); }
+				to { opacity: 0; transform: translateY(10px); }
+			}
+		</style>
+	</head>
+	<body>
+		<header class="header">
+			<a href="#" class="logo">
+				<i class="mdi mdi-presentation-play"></i>
+				<span>Slidegen</span>
+			</a>
+			<p class="description">使用 Markdown，创建精美的演示文稿</p>
+		</header>
+
+		<main class="main-content">
+			<div class="upload-section">
+				<div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
+					<i class="mdi mdi-cloud-upload upload-icon"></i>
+					<h2>点击或拖放上传</h2>
+					<p class="description">支持 Markdown 文件</p>
+					<input type="file" id="file-input" hidden accept=".md,.markdown">
+				</div>
+			</div>
+
+			<div class="file-list" id="file-list">
+				<!-- 文件列表将通过 JavaScript 动态生成 -->
+			</div>
+		</main>
+
+		<script type="module">
+			import { previewPresentation } from './js/preview.js';
+			window.previewPresentation = previewPresentation;
+
+			// 创建日志容器
+			const logContainer = document.createElement('div');
+			logContainer.id = 'log-container';
+			logContainer.style.cssText = `
 				position: fixed;
 				bottom: 20px;
 				right: 20px;
-				width: 300px;
-				max-height: 200px;
-				background: var(--secondary-color);
-				border: 1px solid var(--border-color);
-				color: var(--text-color);
-				border-radius: 8px;
-				padding: 10px;
-				font-family: monospace;
-				font-size: 12px;
-				overflow-y: auto;
-				z-index: 1000;
-				transition: all 0.3s ease;
-			}
+				max-width: 400px;
+				z-index: 9999;
+			`;
+			document.body.appendChild(logContainer);
 
-			.debug-entry {
-				margin-bottom: 5px;
-				padding: 5px;
-				border-radius: 4px;
-			}
-
-			.debug-info { color: var(--success-color); }
-			.debug-error { color: var(--error-color); }
-
-			@media (max-width: 768px) {
-				.container {
-					padding: 10px;
-				}
-
-				.file-list {
-					grid-template-columns: 1fr;
-				}
-
-				#debug-panel {
-					width: calc(100% - 40px);
-					left: 20px;
-				}
-			}
-
-			.reveal .slides {
-				text-align: left;
-			}
-
-			.reveal .slides section {
-				padding: 20px;
-			}
-
-			.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
-				margin-bottom: 20px;
-				text-transform: none;
-			}
-
-			.reveal pre {
-				margin: 15px 0;
-				width: 100%;
-				box-sizing: border-box;
-			}
-
-			.reveal pre code {
-				padding: 15px;
-				max-height: 400px;
-				word-wrap: normal;
-			}
-
-			.reveal img {
-				margin: 15px 0;
-				max-height: 400px;
-				width: auto;
-			}
-
-			.reveal ul, .reveal ol {
-				display: block;
-				margin: 0 0 15px 50px;
-			}
-
-			.reveal li {
-				margin: 10px 0;
-			}
-
-			.reveal p {
-				margin: 15px 0;
-				line-height: 1.4;
-			}
-
-			.reveal .progress {
-				color: var(--primary-color);
-			}
-
-			@media print {
-				.reveal .slides section {
-					page-break-before: always;
-					page-break-after: always;
-				}
-
-				.reveal .slides section:last-child {
-					page-break-after: avoid;
-				}
-			}
-
-			/* 1. 添加响应式布局 */
-			@media (max-width: 480px) {
-				.preview-section {
-					flex-direction: column;
-				}
-			}
-
-			/* 2. 添加深色模式过渡动画 */
-			:root {
-				transition: all 0.3s ease;
-			}
-
-			/* 3. 添加加载动画 */
-			.loading {
-				position: fixed;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				/* 添加加载动画样式 */
-			}
-
-			.preview-container {
-				margin-top: 20px;
-			}
-
-			.preview-header {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				margin-bottom: 15px;
-			}
-
-			.preview-content {
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				gap: 20px;
-				height: 500px;
-			}
-
-			.editor-pane, .preview-pane {
-				height: 100%;
-				overflow: auto;
-			}
-
-			.markdown-editor {
-				width: 100%;
-				height: 100%;
-				padding: 15px;
-				background-color: var(--secondary-color);
-				border: 1px solid var(--border-color);
-				border-radius: 6px;
-				color: var(--text-color);
-				font-family: 'Consolas', monospace;
-				resize: none;
-			}
-
-			.preview-slides {
-				height: 100%;
-				border: 1px solid var(--border-color);
-				border-radius: 6px;
-				padding: 15px;
-				background: var(--secondary-color);
-				color: var(--text-color);
-			}
-
-			@media (max-width: 768px) {
-				.preview-content {
-					grid-template-columns: 1fr;
-					height: auto;
-				}
-				
-				.editor-pane, .preview-pane {
-					height: 300px;
-				}
-			}
-
-			.template-select {
-				padding: 8px 12px;
-				background-color: var(--secondary-color);
-				border: 1px solid var(--border-color);
-				border-radius: 6px;
-				color: var(--text-color);
-				cursor: pointer;
-			}
-
-			.template-select:focus {
-				outline: none;
-				border-color: var(--primary-color);
-			}
-
-			.page-description {
-				text-align: center;
-				color: var(--text-color);
-				opacity: 0.8;
-				margin-bottom: 2rem;
-			}
-		</style>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
-	</head>
-	<body>
-		<div class="container">
-			<header class="header">
-				<h1 class="title">优雅的演示文稿创作工具</h1>
-				<p class="page-description">使用 Markdown，创建精美的演示文稿，让创作加倍简如</p>
-				<div class="theme-selector">
-					<select id="theme-select" class="theme-select">
-						<option value="light">浅色主题</option>
-						<option value="dark">深色主题</option>
-					</select>
-				</div>
-			</header>
-
-			<main>
-				<section class="card">
-					<div class="upload-section">
-						<input type="file" id="markdown-file" accept=".md,.markdown" style="display: none">
-						<button class="button button-primary" onclick="document.getElementById('markdown-file').click()">
-							<i class="mdi mdi-file-upload"></i>选择文件
-						</button>
-						<button id="load-markdown" class="button button-secondary">
-							<i class="mdi mdi-play"></i>生成演示文稿
-						</button>
-					</div>
-					<div id="file-list" class="file-list"></div>
-				</section>
-			</main>
-		</div>
-
-		<div id="debug-panel"></div>
-
-		<script>
-			function removeYamlFrontMatter(content) {
-				const yamlRegex = /^([-*]{3})\n[\s\S]*?\1\n/;
-				return content.replace(yamlRegex, '');
-			}
-
-			function splitIntoSlides(content) {
-				content = removeYamlFrontMatter(content);
-				
-				const slides = [];
-				const lines = content.split('\n');
-				let currentSlide = '';
-				let listItems = [];
-				let isInList = false;
-				
-				function addListToSlide() {
-					if (listItems.length > 0) {
-						currentSlide += `<ul>${listItems.map(item => 
-							`<li class="fragment fade-right">${item}</li>`
-						).join('')}</ul>`;
-						listItems = [];
-						isInList = false;
-					}
-				}
-
-				function processMarkdownImage(text) {
-					// 处理 Markdown 图片语法 ![alt](url) 或 ![alt](url "title")
-					return text.replace(/!\[(.*?)\]\((.*?)(?:\s+"(.*?)")?\)/g, (match, alt, url, title) => {
-						const titleAttr = title ? ` title="${title}"` : '';
-						return `<img src="${url}" alt="${alt}"${titleAttr} style="max-height: 400px; max-width: 100%; object-fit: contain;">`;
-					});
-				}
-
-				function processMarkdownLink(text) {
-					// 处理 Markdown 链接语法 [text](url) 或 [text](url "title")
-					return text.replace(/\[(.*?)\]\((.*?)(?:\s+"(.*?)")?\)/g, (match, text, url, title) => {
-						const titleAttr = title ? ` title="${title}"` : '';
-						return `<a href="${url}"${titleAttr}>${text}</a>`;
-					});
-				}
-
-				function processCodeBlock(text) {
-					return text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
-						const language = lang || 'plaintext';
-						return `<pre><code class="hljs ${language}">${code.trim()}</code></pre>`;
-					});
-				}
-
-				for (let i = 0; i < lines.length; i++) {
-					const line = lines[i].trim();
-					
-					if (line.startsWith('Note:')) {
-						// 处理演讲者注释
-						const note = line.substring(5).trim();
-						currentSlide += `<aside class="notes">${note}</aside>`;
-						continue;
-					}
-					
-					if (line.match(/^#{1,4}\s+/)) {
-						addListToSlide();
-						if (currentSlide) {
-							slides.push(`<section>${currentSlide}</section>`);
-						}
-						
-						const level = line.match(/^(#{1,4})/)[0].length;
-						const title = processMarkdownImage(processMarkdownLink(line.substring(level + 1)));
-						
-						switch(level) {
-							case 1:
-								currentSlide = `<h1 class="r-fit-text">${title}</h1>`;
-								break;
-							case 2:
-								currentSlide = `<h2 class="r-fit-text">${title}</h2>`;
-								break;
-							case 3:
-								currentSlide = `<h3>${title}</h3>`;
-								break;
-							case 4:
-								currentSlide = `<h4>${title}</h4>`;
-								break;
-						}
-					} else if (line.startsWith('- ')) {
-						isInList = true;
-						// 处理列表项中的图片和链接
-						listItems.push(processMarkdownImage(processMarkdownLink(line.substring(2))));
-					} else if (line === '') {
-						addListToSlide();
-					} else if (line) {
-						addListToSlide();
-						// 处理普通文本中的图片和链接
-						const processedLine = processCodeBlock(processMarkdownImage(processMarkdownLink(line)));
-						currentSlide += `<p class="fragment fade-in">${processedLine}</p>`;
-					}
-				}
-				
-				addListToSlide();
-				if (currentSlide) {
-					slides.push(`<section>${currentSlide}</section>`);
-				}
-
-				return slides;
-			}
-
-			function generatePresentationHTML(slides) {
-				const presentationTheme = localStorage.getItem('presentation-theme') || 'black';
-				const template = [
-					'<!doctype html>',
-					'<html>',
-					'<head>',
-					'    <meta charset="utf-8">',
-					'    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
-					'    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">',
-					'    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">',
-					'    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/' + presentationTheme + '.css">',
-					'    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/monokai.css">',
-					'</head>',
-					'<body>',
-					'    <div class="reveal">',
-					'        <div class="slides">',
-					slides.join('\n'),
-					'        </div>',
-					'    </div>',
-					'    <div class="theme-selector" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">',
-					'        <select onchange="updatePresentationTheme(this.value)">',
-					'            <option value="' + presentationTheme + '" selected>' + presentationTheme.charAt(0).toUpperCase() + presentationTheme.slice(1) + '</option>',
-					'            <option value="black">Black</option>',
-					'            <option value="white">White</option>',
-					'            <option value="league">League</option>',
-					'            <option value="sky">Sky</option>',
-					'            <option value="beige">Beige</option>',
-					'            <option value="simple">Simple</option>',
-					'            <option value="serif">Serif</option>',
-					'            <option value="blood">Blood</option>',
-					'            <option value="night">Night</option>',
-					'            <option value="moon">Moon</option>',
-					'            <option value="solarized">Solarized</option>',
-					'        </select>',
-					'    </div>',
-					'    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"><\/script>',
-					'    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js"><\/script>',
-					'    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"><\/script>',
-					'    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"><\/script>',
-					'    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/zoom/zoom.js"><\/script>',
-					'    <script>',
-					'function updatePresentationTheme(theme) {',
-					'        document.querySelector(\'link[href*="/theme/"]\').href = "https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/" + theme + ".css";',
-					'        localStorage.setItem("presentation-theme", theme);',
-					'    }',
-					'    document.addEventListener("DOMContentLoaded", async function() {',
-					'        await Promise.all([',
-					'            typeof RevealMarkdown !== "undefined",',
-					'            typeof RevealHighlight !== "undefined",',
-					'            typeof RevealNotes !== "undefined",',
-					'            typeof RevealZoom !== "undefined"',
-					'        ]);',
-					'        Reveal.initialize({',
-					'            controls: true,',
-					'            progress: true,',
-					'            center: false,',
-					'            hash: true,',
-					'            width: "100%",',
-					'            height: "100%",',
-					'            margin: 0.04,',
-					'            minScale: 0.2,',
-					'            maxScale: 1.5,',
-					'            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom ],',
-					'            keyboard: true,',
-					'            overview: true,',
-					'            touch: true,',
-					'            fragments: true,',
-					'            slideNumber: true,',
-					'            embedded: false,',
-					'            history: false,',
-					'            theme: "' + presentationTheme + '",',
-					'            transition: "slide"',
-					'        });',
-					'    });',
-					'    <\/script>',
-					'</body>',
-					'</html>'
-				].join('\n');
-				return template;
-			}
-
+			// 日志函数
 			function log(message, type = 'info') {
-				const debugPanel = document.getElementById('debug-panel');
-				const time = new Date().toLocaleTimeString();
-				const logMessage = `
-					<div class="debug-entry debug-${type}">
-						<span>[${time}]</span>
-						<span>${message}</span>
-					</div>
+				console.log(`[${new Date().toLocaleTimeString()}] ${message}`);
+				const logEntry = document.createElement('div');
+				logEntry.className = `log-entry ${type}`;
+				logEntry.style.cssText = `
+					padding: 10px;
+					margin: 5px;
+					border-radius: 4px;
+					background: ${type === 'error' ? '#FEE2E2' : type === 'success' ? '#D1FAE5' : '#E0E7FF'};
+					color: ${type === 'error' ? '#DC2626' : type === 'success' ? '#059669' : '#4F46E5'};
+					box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+					animation: fadeIn 0.3s ease;
 				`;
-				debugPanel.innerHTML += logMessage;
-				debugPanel.scrollTop = debugPanel.scrollHeight;
+				logEntry.textContent = message;
+				logContainer.appendChild(logEntry);
+
+				// 3秒后自动移除
+				setTimeout(() => {
+					logEntry.style.animation = 'fadeOut 0.3s ease';
+					setTimeout(() => logEntry.remove(), 300);
+				}, 3000);
 			}
 
-			function saveFile(file, content) {
-				const files = JSON.parse(localStorage.getItem('markdown-files') || '{}');
-				files[file.name] = {
-					name: file.name,
-					content: content,
-					timestamp: new Date().toISOString()
-				};
-				localStorage.setItem('markdown-files', JSON.stringify(files));
-				updateFileList();
-			}
-
-			function loadSavedFiles() {
-				return JSON.parse(localStorage.getItem('markdown-files') || '{}');
-			}
-
-			function deleteFile(fileName) {
-				const files = loadSavedFiles();
-				delete files[fileName];
-				localStorage.setItem('markdown-files', JSON.stringify(files));
-				updateFileList();
-			}
-
-			function updateFileList() {
-				const fileList = document.getElementById('file-list');
-				const files = loadSavedFiles();
-				
-				fileList.innerHTML = Object.values(files).map(file => {
-					const date = new Date(file.timestamp).toLocaleString();
-					return [
-						'<div class="file-card">',
-						'    <div class="file-header">',
-						'        <span class="file-name">',
-						'            <i class="mdi mdi-file-document"></i>',
-						'            ' + file.name,
-						'        </span>',
-						'        <div class="file-actions">',
-						'            <button class="button button-primary" onclick="showPresentation(\'' + file.name + '\')">',
-						'                <i class="mdi mdi-play"></i>',
-						'            </button>',
-						'            <button class="button button-secondary" onclick="deleteFile(\'' + file.name + '\')">',
-						'                <i class="mdi mdi-delete"></i>',
-						'            </button>',
-						'        </div>',
-						'    </div>',
-						'    <div class="file-info">',
-						'        <i class="mdi mdi-clock"></i> ' + date,
-						'    </div>',
-						'</div>'
-					].join('\n');
-				}).join('');
-			}
-
-			function showPresentation(fileName) {
-				try {
-					const files = loadSavedFiles();
-					const file = files[fileName];
-					if (!file) {
-						throw new Error(`找不到文件: ${fileName}`);
-					}
+			// 文件处理函数
+			function handleFiles(files) {
+				log(`开始处理 ${files.length} 个文件`);
+				Array.from(files).forEach(file => {
+					log(`处理文件: ${file.name} (${formatFileSize(file.size)})`);
 					
-					const slides = splitIntoSlides(file.content);
-					if (!slides.length) {
-						throw new Error('没有找到有效的幻灯片内容');
-					}
-					
-					const presentationHTML = generatePresentationHTML(slides);
-					const blob = new Blob([presentationHTML], { type: 'text/html' });
-					const url = URL.createObjectURL(blob);
-					
-					window.open(url, '_blank');
-					setTimeout(() => URL.revokeObjectURL(url), 1000);
-				} catch (error) {
-					log(`演示文稿加载失败: ${error.message}`, 'error');
-				}
-			}
-
-			document.getElementById('load-markdown').addEventListener('click', function() {
-				const fileInput = document.getElementById('markdown-file');
-				const file = fileInput.files[0];
-
-				if (file) {
-					const reader = new FileReader();
-					reader.onload = function(e) {
-						const content = e.target.result;
-						saveFile(file, content);
+					if (file.name.endsWith('.md') || file.type === 'text/markdown') {
+						const reader = new FileReader();
 						
-						const slides = splitIntoSlides(content);
-						const presentationHTML = generatePresentationHTML(slides);
-						
-						const blob = new Blob([presentationHTML], { type: 'text/html' });
-						const url = URL.createObjectURL(blob);
-						
-						window.open(url, '_blank');
-						setTimeout(() => URL.revokeObjectURL(url), 1000);
-					};
-					reader.readAsText(file);
-				}
-			});
+						reader.onloadstart = () => {
+							log(`开始读取文件: ${file.name}`);
+						};
 
-			window.addEventListener('load', function() {
-				updateFileList();
-				const appTheme = localStorage.getItem('app-theme') || 'light';
-				document.documentElement.setAttribute('data-theme', appTheme);
-				document.getElementById('theme-select').value = appTheme;
-			});
+						reader.onprogress = (event) => {
+							if (event.lengthComputable) {
+								const percent = Math.round((event.loaded / event.total) * 100);
+								log(`读取进度: ${percent}%`);
+							}
+						};
 
-			window.showPresentation = showPresentation;
-			window.deleteFile = deleteFile;
+						reader.onload = (e) => {
+							log(`文件读取完成: ${file.name}`, 'success');
+							try {
+								// 保存文件到本地存储
+								const files = JSON.parse(localStorage.getItem('markdown-files') || '{}');
+								files[file.name] = {
+									content: e.target.result,
+									timestamp: new Date().toISOString()
+								};
+								localStorage.setItem('markdown-files', JSON.stringify(files));
+								log(`文件保存成功: ${file.name}`, 'success');
+								
+								// 更新文件列表显示
+								updateFileList();
+							} catch (error) {
+								log(`保存文件失败: ${error.message}`, 'error');
+								console.error('保存文件错误:', error);
+							}
+						};
 
-			// 修改主题选择器事件处理
-			document.getElementById('theme-select').addEventListener('change', function(e) {
-				const theme = e.target.value;
-				document.documentElement.setAttribute('data-theme', theme);
-				localStorage.setItem('app-theme', theme);
-			});
+						reader.onerror = () => {
+							log(`文件读取失败: ${file.name}`, 'error');
+							console.error('文件读取错误:', reader.error);
+						};
 
-			// 添加文件拖放支持
-			document.addEventListener('dragover', (e) => {
-				e.preventDefault();
-				e.stopPropagation();
-			});
-
-			document.addEventListener('drop', (e) => {
-				e.preventDefault();
-				e.stopPropagation();
-				
-				const files = e.dataTransfer.files;
-				if (files.length > 0 && files[0].name.match(/\.(md|markdown)$/)) {
-					document.getElementById('markdown-file').files = files;
-					document.getElementById('load-markdown').click();
-				} else {
-					log('请拖放 Markdown 文件', 'error');
-				}
-			});
-
-			// 添加 Markdown 实时预览功能
-			function generatePreviewSection() {
-				return `
-					<div class="preview-container card">
-						<div class="preview-header">
-							<h2>编辑器</h2>
-							<div class="template-selector">
-								<select id="template-select" class="template-select">
-									<option value="">选择模板...</option>
-									<option value="basic">基础模板</option>
-									<option value="twoColumn">两栏布局</option>
-									<option value="imageGallery">图片展示</option>
-									<option value="codeDemo">代码演示</option>
-								</select>
-							</div>
-						</div>
-						<div class="preview-content">
-							<div class="editor-pane">
-								<textarea id="markdown-editor" class="markdown-editor" placeholder="在此输入 Markdown 内容..."></textarea>
-							</div>
-							<div class="preview-pane">
-								<div id="preview-slides" class="preview-slides"></div>
-							</div>
-						</div>
-					</div>
-				`;
-			}
-
-			// 添加幻灯片模板功能
-			const slideTemplates = {
-				basic: `# 演示文稿标题
-
-## 第一张幻灯片
-
-- 要点 1
-- 要点 2
-- 要点 3
-
-Note: 演讲者注释
-
----
-
-## 第二张幻灯片
-
-这是正文内容
-
-* 列表项 1
-* 列表项 2`,
-
-				twoColumn: `# 两栏布局演示
-
-<div class="columns">
-<div class="column" style="float: left; width: 50%;">
-
-## 左侧内容
-
-- 项目 1
-- 项目 2
-- 项目 3
-
-</div>
-<div class="column" style="float: right; width: 50%;">
-
-## 右侧内容
-
-1. 编号 1
-2. 编号 2
-3. 编号 3
-
-</div>
-</div>`,
-
-				imageGallery: `# 图片展示
-
-## 图片展示模板
-
-![图片描述](图片URL)
-
----
-
-## 多图布局
-
-<div class="image-grid">
-![图片1](URL1) | ![图片2](URL2)
----|---
-![图片3](URL3) | ![图片4](URL4)
-</div>`,
-
-				codeDemo: `# 代码演示
-
-## 示例代码
-
-\`\`\`javascript
-function example() {
-    console.log("Hello World!");
-}
-\`\`\`
-
----
-
-## 代码对比
-
-\`\`\`javascript [1-2|3-4]
-// 之前的代码
-let x = 1;
-// 改进后的代码
-let x = 2;
-\`\`\`
-`
-			};
-
-			// 1. 添加进度保存功能
-			function autoSave(content) {
-				localStorage.setItem('draft-content', content);
-				localStorage.setItem('last-save-time', new Date().toISOString());
-			}
-
-			// 2. 添加快捷键支持
-			document.addEventListener('keydown', function(e) {
-				if (e.ctrlKey && e.key === 's') {
-					e.preventDefault();
-					saveCurrentFile();
-				}
-			});
-
-			// 1. 添加文件缓存机制
-			const fileCache = new Map();
-
-			function getCachedFile(fileName) {
-				return fileCache.get(fileName);
-			}
-
-			// 2. 添加延迟加载
-			function lazyLoadPlugins() {
-				const plugins = [
-					'markdown',
-					'highlight',
-					'notes',
-					'zoom'
-				];
-				
-				return Promise.all(plugins.map(plugin => 
-					import(`https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/${plugin}/${plugin}.js`)
-				));
-			}
-
-			// 1. 添加文件类型检查
-			function validateFile(file) {
-				const allowedTypes = ['text/markdown', 'text/md'];
-				const maxSize = 5 * 1024 * 1024; // 5MB
-
-				if (!allowedTypes.includes(file.type)) {
-					throw new Error('不支持的文件类型');
-				}
-
-				if (file.size > maxSize) {
-					throw new Error('文件大小超过限制');
-				}
-			}
-
-			// 2. 添加内容安全策略
-			function sanitizeMarkdown(content) {
-				// 使用 DOMPurify 或其他库清理内容
-				return DOMPurify.sanitize(content);
-			}
-
-			// 1. 添加全局错误处理
-			window.addEventListener('error', function(e) {
-				log(`发生错误: ${e.message}`, 'error');
-				// 可以添加错误上报逻辑
-			});
-
-			// 2. 添加更友好的错误提示
-			function showError(message, type = 'error') {
-				const errorContainer = document.createElement('div');
-				errorContainer.className = `error-message ${type}`;
-				errorContainer.textContent = message;
-				document.body.appendChild(errorContainer);
-				
-				setTimeout(() => errorContainer.remove(), 3000);
-			}
-
-			// 在 body 的 main 部分添加预览区域
-			function generatePreviewSection() {
-				return `
-					<div class="preview-container card">
-						<div class="preview-header">
-							<h2>编辑器</h2>
-							<div class="template-selector">
-								<select id="template-select" class="template-select">
-									<option value="">选择模板...</option>
-									<option value="basic">基础模板</option>
-									<option value="twoColumn">两栏布局</option>
-									<option value="imageGallery">图片展示</option>
-									<option value="codeDemo">代码演示</option>
-								</select>
-							</div>
-						</div>
-						<div class="preview-content">
-							<div class="editor-pane">
-								<textarea id="markdown-editor" class="markdown-editor" placeholder="在此输入 Markdown 内容..."></textarea>
-							</div>
-							<div class="preview-pane">
-								<div id="preview-slides" class="preview-slides"></div>
-							</div>
-						</div>
-					</div>
-				`;
-			}
-
-			// 初始化编辑器和预览
-			function initializeEditor() {
-				// 添加预览区域到 DOM
-				const mainSection = document.querySelector('main');
-				mainSection.insertAdjacentHTML('beforeend', generatePreviewSection());
-				
-				const editor = document.getElementById('markdown-editor');
-				const templateSelect = document.getElementById('template-select');
-				
-				// 模板选择事件
-				templateSelect.addEventListener('change', (e) => {
-					if (e.target.value && slideTemplates[e.target.value]) {
-						editor.value = slideTemplates[e.target.value];
-						updatePreview(editor.value);
+						reader.readAsText(file);
+					} else {
+						log(`不支持的文件类型: ${file.name}`, 'error');
 					}
 				});
+			}
+
+			// 更新文件列表显示
+			function updateFileList() {
+				log('开始更新文件列表');
+				const fileList = document.getElementById('file-list');
+				const files = JSON.parse(localStorage.getItem('markdown-files') || '{}');
 				
-				// 实时预览
-				editor.addEventListener('input', debounce((e) => {
-					updatePreview(e.target.value);
-					// 自保存
-					autoSave(e.target.value);
-				}, 300));
+				// 清空当前列表
+				fileList.innerHTML = '';
 				
-				// 加载上次的草稿
-				const savedContent = localStorage.getItem('draft-content');
-				if (savedContent) {
-					editor.value = savedContent;
-					updatePreview(savedContent);
+				// 添加文件项
+				Object.entries(files).forEach(([filename, data]) => {
+					log(`添加文件到列表: ${filename}`);
+					const fileItem = document.createElement('div');
+					fileItem.className = 'file-item';
+					fileItem.innerHTML = `
+						<div class="file-name">
+							<i class="mdi mdi-file-document-outline"></i>
+							<span>${filename}</span>
+						</div>
+						<div class="file-actions">
+							<button class="btn btn-preview" onclick="previewFile('${filename}')">
+								<i class="mdi mdi-eye"></i>
+								预览
+							</button>
+							<button class="btn btn-delete" onclick="deleteFile('${filename}')">
+								<i class="mdi mdi-delete"></i>
+								删除
+							</button>
+						</div>
+					`;
+					fileList.appendChild(fileItem);
+				});
+				log(`文件列表更新完成，共 ${Object.keys(files).length} 个文件`);
+			}
+
+			// 预览文件
+			window.previewFile = function(filename) {
+				log(`准备预览文件: ${filename}`);
+				try {
+					const files = JSON.parse(localStorage.getItem('markdown-files') || '{}');
+					const fileData = files[filename];
+					if (fileData) {
+						log(`开始预览: ${filename}`);
+						window.previewPresentation(filename, fileData.content);
+					} else {
+						log(`文件不存在: ${filename}`, 'error');
+					}
+				} catch (error) {
+					log(`预览失败: ${error.message}`, 'error');
+					console.error('预览错误:', error);
 				}
+			};
+
+			// 删除文件
+			window.deleteFile = function(filename) {
+				log(`准备删除文件: ${filename}`);
+				if (confirm(`确定要删除 ${filename} 吗？`)) {
+					try {
+						const files = JSON.parse(localStorage.getItem('markdown-files') || '{}');
+						delete files[filename];
+						localStorage.setItem('markdown-files', JSON.stringify(files));
+						log(`文件已删除: ${filename}`, 'success');
+						updateFileList();
+					} catch (error) {
+						log(`删除失败: ${error.message}`, 'error');
+						console.error('删除错误:', error);
+					}
+				} else {
+					log(`取消删除: ${filename}`);
+				}
+			};
+
+			// 工具函数：格式化文件大小
+			function formatFileSize(bytes) {
+				if (bytes === 0) return '0 B';
+				const k = 1024;
+				const sizes = ['B', 'KB', 'MB', 'GB'];
+				const i = Math.floor(Math.log(bytes) / Math.log(k));
+				return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 			}
 
-			// 更新预览
-			function updatePreview(content) {
-				const previewContainer = document.getElementById('preview-slides');
-				const slides = splitIntoSlides(content);
-				previewContainer.innerHTML = slides.join('\n');
-			}
+			// 拖放处理
+			const dropZone = document.getElementById('drop-zone');
+			const fileInput = document.getElementById('file-input');
 
-			// 防抖函数
-			function debounce(func, wait) {
-				let timeout;
-				return function executedFunction(...args) {
-					const later = () => {
-						clearTimeout(timeout);
-						func(...args);
-					};
-					clearTimeout(timeout);
-					timeout = setTimeout(later, wait);
-				};
-			}
-
-			// 自动保存
-			function autoSave(content) {
-				localStorage.setItem('draft-content', content);
-				localStorage.setItem('last-save-time', new Date().toISOString());
-				log('内容已自动保存', 'info');
-			}
-
-			// 在页面加载时初始化编辑器
-			window.addEventListener('load', function() {
-				initializeEditor();
+			dropZone.addEventListener('dragenter', (e) => {
+				e.preventDefault();
+				log('文件拖入上传区域');
+				dropZone.classList.add('drag-over');
 			});
+
+			dropZone.addEventListener('dragover', (e) => {
+				e.preventDefault();
+				dropZone.classList.add('drag-over');
+			});
+
+			dropZone.addEventListener('dragleave', (e) => {
+				e.preventDefault();
+				log('文件离开上传区域');
+				dropZone.classList.remove('drag-over');
+			});
+
+			dropZone.addEventListener('drop', (e) => {
+				e.preventDefault();
+				log('文件已放置到上传区域');
+				dropZone.classList.remove('drag-over');
+				handleFiles(e.dataTransfer.files);
+			});
+
+			fileInput.addEventListener('change', (e) => {
+				log('通过点击选择文件');
+				handleFiles(e.target.files);
+				fileInput.value = '';
+			});
+
+			// 初始化
+			log('页面初始化');
+			updateFileList();
 		</script>
 	</body>
 </html>

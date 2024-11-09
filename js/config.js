@@ -384,6 +384,59 @@ export default {
 		},
 		transitions: true,          // 是否启用过渡动画
 		shadows: true               // 是否启用阴影效果
+	},
+
+	// 扩展主题配置
+	themes: {
+		blood: {
+			colors: {
+				primary: '#bb2d3b',
+				secondary: '#e74c3c',
+				background: '#222',
+				text: '#eee',
+				link: '#e74c3c',
+				selection: '#e74c3c',
+				codeBackground: '#3f3f3f'
+			},
+			typography: {
+				headingFont: 'Ubuntu',
+				bodyFont: 'Lato',
+				codeFont: 'Fira Code',
+				headingTextTransform: 'uppercase',
+				headingLetterSpacing: '-0.08em',
+				bodyLineHeight: 1.6
+			},
+			spacing: {
+				blockMargin: '20px',
+				contentWidth: '90%',
+				slideSpacing: '2rem'
+			},
+			effects: {
+				transitions: {
+					slide: 'slide',
+					fade: 'fade',
+					convex: 'convex',
+					concave: 'concave',
+					zoom: 'zoom'
+				},
+				backgrounds: {
+					useGradient: true,
+					gradientColors: ['#222', '#444']
+				}
+			}
+		},
+		beige: {
+			// ... 类似的配置
+		},
+		sky: {
+			// ... 类似的配置
+		}
+	},
+
+	// 主题切换配置
+	themeTransition: {
+		duration: 400,
+		easing: 'ease-in-out'
 	}
 
 }
