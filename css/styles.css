@@ -4,8 +4,111 @@ body {
     padding: 0;
     min-height: 100vh;
     font-family: 'Noto Sans SC', sans-serif;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* 默认主题（深色） */
+body {
     background: linear-gradient(135deg, #9333EA 0%, #EC4899 100%);
     color: #F8FAFC;
+}
+
+/* 日间模式 */
+body[data-theme="light"] {
+    background: linear-gradient(135deg, #9333EA 0%, #EC4899 100%);
+    color: #fff;
+}
+
+body[data-theme="light"] .header {
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body[data-theme="light"] .logo {
+    color: #fff;
+}
+
+body[data-theme="light"] .hero-title {
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.9) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+body[data-theme="light"] .hero-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+body[data-theme="light"] .upload-area {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+body[data-theme="light"] .file-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body[data-theme="light"] .btn-preview,
+body[data-theme="light"] .btn-delete {
+    color: #fff;
+}
+
+body[data-theme="light"] .theme-mode-btn {
+    color: #fff;
+}
+
+body[data-theme="light"] .theme-mode-menu {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body[data-theme="light"] .theme-mode-item {
+    color: #fff;
+}
+
+body[data-theme="light"] .github-link {
+    color: #fff;
+}
+
+/* 夜间模式 */
+body[data-theme="dark"] {
+    background: #1a1a1a;
+    color: #F8FAFC;
+}
+
+body[data-theme="dark"] .header {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="dark"] .hero-title {
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.9) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+body[data-theme="dark"] .upload-area {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body[data-theme="dark"] .file-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 系统主题（跟随系统设置） */
+@media (prefers-color-scheme: light) {
+    body[data-theme="system"] {
+        background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+        color: #1a1a1a;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body[data-theme="system"] {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        color: #F8FAFC;
+    }
 }
 
 /* 顶部导航栏 */
@@ -16,6 +119,7 @@ body {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: space-between;
 }
 
 .logo {
@@ -26,6 +130,12 @@ body {
     font-weight: 700;
     color: #fff;
     text-decoration: none;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
 }
 
 /* 主要内容区 */
@@ -40,7 +150,7 @@ body {
 }
 
 .hero-title {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     font-weight: 700;
     margin: 0;
     background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.9) 100%);
@@ -50,9 +160,9 @@ body {
 }
 
 .hero-subtitle {
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: rgba(255, 255, 255, 0.9);
-    margin: 1rem 0 3rem;
+    margin: 0.5rem 0 1.5rem;
     max-width: 600px;
 }
 
@@ -147,7 +257,7 @@ body {
 /* 响应式设计 */
 @media (max-width: 768px) {
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 
     .features-grid {
@@ -222,4 +332,77 @@ body {
 
 .btn-delete:hover {
     background: rgba(239, 68, 68, 0.3);
-} 
+}
+
+/* 主题模式切换样式 */
+.theme-mode-switch {
+    position: relative;
+    margin-left: 0.5rem;
+}
+
+.theme-mode-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.theme-mode-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.theme-mode-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 0.5rem;
+    display: none;
+    min-width: 160px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.theme-mode-menu.show {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+.theme-mode-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.theme-mode-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.theme-mode-item i {
+    font-size: 1.25rem;
+}
+
+/* GitHub 链接样式 */
+.github-link {
+    color: inherit;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.github-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+}

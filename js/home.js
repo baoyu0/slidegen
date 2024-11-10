@@ -109,4 +109,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 页面加载时恢复文件列表
     loadSavedFiles();
+
+    // 主题模式切换功能
+    const themeBtn = document.getElementById('theme-mode-btn');
+    const themeMenu = document.getElementById('theme-mode-menu');
+    const themeItems = document.querySelectorAll('.theme-mode-item');
+
+    // 从 localStorage 获取保存的主题模式
+    const savedTheme = localStorage.getItem('theme-mode') || 'system';
+    applyTheme(savedTheme);
+
+    // 切换菜单显示/隐藏
+    themeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        themeMenu.classList.toggle('show');
+    });
+
+    // 点击其他地方关闭菜单
+    document.addEventListener('click', () => {
+        themeMenu.classList.remove('show');
+    });
+
+    // 主题切换处理
+    themeItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const mode = item.dataset.mode;
+            applyTheme(mode);
+            localStorage.setItem('theme-mode', mode);
+            themeMenu.classList.remove('show');
+        });
+    });
+
+    // 应用主题
+    function applyTheme(mode) {
+        if (mode === 'system') {
+            // 检测系统主题
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.setAttribute('data-theme', 'dark');
+            } else {
+                document.body.setAttribute('data-theme', 'light');
+            }
+        } else {
+            document.body.setAttribute('data-theme', mode);
+        }
+
+        // 更新图标和按钮颜色
+        const icons = {
+            light: 'mdi-white-balance-sunny',
+            dark: 'mdi-moon-waning-crescent',
+            system: 'mdi-brightness-6'
+        };
+        themeBtn.innerHTML = `<i class="mdi ${icons[mode]}"></i>`;
+    }
+
+    // 监听系统主题变化
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (localStorage.getItem('theme-mode') === 'system') {
+            document.body.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+    });
 }); 
