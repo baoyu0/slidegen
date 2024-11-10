@@ -4,7 +4,7 @@ body {
     padding: 0;
     min-height: 100vh;
     font-family: 'Noto Sans SC', sans-serif;
-    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+    background: linear-gradient(135deg, #9333EA 0%, #EC4899 100%);
     color: #F8FAFC;
 }
 
@@ -12,20 +12,20 @@ body {
 .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 1rem 2rem;
-    background: rgba(30, 41, 59, 0.8);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 2.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 1.5rem;
+    gap: 0.75rem;
+    font-size: 2rem;
     font-weight: 700;
-    color: #38BDF8;
+    color: #fff;
+    text-decoration: none;
 }
 
 /* 主要内容区 */
@@ -35,33 +35,137 @@ body {
     align-items: center;
     justify-content: center;
     padding: 4rem 2rem;
-    min-height: calc(100vh - 200px);
+    gap: 4rem;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.9) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 1rem 0 3rem;
+    max-width: 600px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 4rem;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    padding: 2rem;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.feature-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.feature-description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.875rem;
+    line-height: 1.5;
 }
 
 /* 上传区域 */
 .upload-area {
     width: 100%;
-    max-width: 600px;
+    max-width: 720px;
     padding: 3rem;
     text-align: center;
-    background: rgba(30, 41, 59, 0.6);
-    border: 2px dashed #38BDF8;
-    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 24px;
     transition: all 0.3s ease;
+    backdrop-filter: blur(12px);
 }
 
 .upload-area:hover {
-    background: rgba(30, 41, 59, 0.8);
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-4px);
 }
 
 .upload-icon {
     font-size: 3rem;
-    color: #38BDF8;
-    margin-bottom: 1rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
 }
 
-/* 文件列表 */
+/* 按钮样式 */
+.btn {
+    padding: 0.875rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    backdrop-filter: blur(12px);
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .upload-area {
+        padding: 2rem 1rem;
+    }
+}
+
+/* 文件列表样式 */
 .file-list {
     width: 100%;
     max-width: 800px;
@@ -71,69 +175,51 @@ body {
 .file-item {
     display: flex;
     align-items: center;
-    padding: 1rem;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
     margin-bottom: 1rem;
-    background: rgba(30, 41, 59, 0.6);
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    backdrop-filter: blur(12px);
     transition: all 0.3s ease;
 }
 
 .file-item:hover {
-    background: rgba(30, 41, 59, 0.8);
+    background: rgba(255, 255, 255, 0.15);
     transform: translateX(4px);
 }
 
-/* 按钮样式 */
-.btn {
+.file-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-preview,
+.btn-delete {
     padding: 0.5rem 1rem;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.btn-primary {
-    background: #38BDF8;
-    color: #0F172A;
+.btn-preview {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
 }
 
-.btn-primary:hover {
-    background: #0EA5E9;
-    transform: translateY(-1px);
+.btn-preview:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
-.btn-secondary {
-    background: rgba(203, 213, 225, 0.1);
-    color: #CBD5E1;
+.btn-delete {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fff;
 }
 
-.btn-secondary:hover {
-    background: rgba(203, 213, 225, 0.2);
-}
-
-/* 动画效果 */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-    animation: fadeIn 0.5s ease forwards;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .header {
-        padding: 1rem;
-    }
-
-    .main-content {
-        padding: 2rem 1rem;
-    }
-
-    .upload-area {
-        padding: 2rem 1rem;
-    }
+.btn-delete:hover {
+    background: rgba(239, 68, 68, 0.3);
 } 
