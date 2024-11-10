@@ -1,0 +1,139 @@
+/* 基础样式重置 */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Noto Sans SC', sans-serif;
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+    color: #F8FAFC;
+}
+
+/* 顶部导航栏 */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #38BDF8;
+}
+
+/* 主要内容区 */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+/* 上传区域 */
+.upload-area {
+    width: 100%;
+    max-width: 600px;
+    padding: 3rem;
+    text-align: center;
+    background: rgba(30, 41, 59, 0.6);
+    border: 2px dashed #38BDF8;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    background: rgba(30, 41, 59, 0.8);
+    transform: translateY(-2px);
+}
+
+.upload-icon {
+    font-size: 3rem;
+    color: #38BDF8;
+    margin-bottom: 1rem;
+}
+
+/* 文件列表 */
+.file-list {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 2rem;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: rgba(30, 41, 59, 0.6);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.file-item:hover {
+    background: rgba(30, 41, 59, 0.8);
+    transform: translateX(4px);
+}
+
+/* 按钮样式 */
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #38BDF8;
+    color: #0F172A;
+}
+
+.btn-primary:hover {
+    background: #0EA5E9;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: rgba(203, 213, 225, 0.1);
+    color: #CBD5E1;
+}
+
+.btn-secondary:hover {
+    background: rgba(203, 213, 225, 0.2);
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .header {
+        padding: 1rem;
+    }
+
+    .main-content {
+        padding: 2rem 1rem;
+    }
+
+    .upload-area {
+        padding: 2rem 1rem;
+    }
+} 

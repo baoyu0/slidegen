@@ -4,22 +4,22 @@ const themes = {
         name: '深海蓝',
         colors: {
             primary: {
-                base: '#0085ff',    // primary-100 主蓝色
-                light: '#69b4ff',   // primary-200 浅蓝色
-                dark: '#006fff'     // accent-100 深蓝色
+                base: '#0EA5E9',    // 更现代的蓝色
+                light: '#38BDF8',   // 清新的浅蓝色
+                dark: '#0369A1'     // 沉稳的深蓝色
             },
             background: {
-                dark: '#1E1E1E',    // bg-100 深色背景
-                medium: '#2d2d2d',  // bg-200 中等背景
-                light: '#454545'    // bg-300 浅色背景
+                dark: '#0F172A',    // 深邃的背景色
+                medium: '#1E293B',  // 优雅的中间色
+                light: '#334155'    // 柔和的浅色
             },
             text: {
-                primary: '#FFFFFF',   // text-100 主要文字
-                secondary: '#9e9e9e'  // text-200 次要文字
+                primary: '#F8FAFC',   // 清晰的主文本
+                secondary: '#94A3B8'  // 柔和的次要文本
             },
             accent: {
-                light: '#e0ffff',    // primary-300 浅色强调
-                dark: '#e1ffff'      // accent-200 深色强调
+                light: '#BAE6FD',    // 点缀的浅色
+                dark: '#0284C7'      // 强调的深色
             }
         },
         styles: `
@@ -30,6 +30,7 @@ const themes = {
             .reveal[data-theme="deep-sea"] .slides section {
                 background: var(--bg-200);
                 border: 1px solid var(--bg-300);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
         `
     },
@@ -39,18 +40,18 @@ const themes = {
         name: '晨光白',
         colors: {
             primary: {
-                base: '#71c4ef',    // accent-100 作为主色调
-                light: '#d4eaf7',   // primary-100 作为浅色
-                dark: '#00668c'     // accent-200 作为深色
+                base: '#71c4ef',    // 清新的蓝色
+                light: '#d4eaf7',   // 柔和的浅蓝
+                dark: '#00668c'     // 稳重的深蓝
             },
             background: {
-                light: '#fffefb',   // bg-100 最浅色背景
-                medium: '#f5f4f1',  // bg-200 中等背景
-                dark: '#cccbc8'     // bg-300 深色背景
+                light: '#fffefb',   // 纯净的白色
+                medium: '#f5f4f1',  // 温和的灰白
+                dark: '#cccbc8'     // 柔和的深灰
             },
             text: {
-                primary: '#1d1c1c',   // text-100 主要文字
-                secondary: '#313d44'  // text-200 次要文字
+                primary: '#1d1c1c',   // 清晰的黑色
+                secondary: '#313d44'  // 优雅的灰色
             }
         },
         styles: `
@@ -59,8 +60,9 @@ const themes = {
                 color: var(--text-100);
             }
             .reveal[data-theme="morning-light"] .slides section {
-                background: rgba(245, 244, 241, 0.9);  // bg-200 with opacity
-                border: 1px solid rgba(204, 203, 200, 0.2); // bg-300 with opacity
+                background: rgba(245, 244, 241, 0.9);
+                border: 1px solid rgba(204, 203, 200, 0.2);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             }
         `
     },
@@ -70,20 +72,31 @@ const themes = {
         name: '梦幻紫',
         colors: {
             primary: {
-                base: '#9333EA',     // 主紫色
-                light: '#A855F7',    // 浅紫色
-                dark: '#7E22CE'      // 深紫色
+                base: '#9333EA',     // 梦幻的紫色
+                light: '#A855F7',    // 轻盈的浅紫
+                dark: '#7E22CE'      // 神秘的深紫
             },
             background: {
-                light: '#FAF5FF',    // 浅色背景
-                medium: '#F3E8FF',   // 中等背景
-                dark: '#E9D5FF'      // 深色背景
+                light: '#FAF5FF',    // 柔和的背景
+                medium: '#F3E8FF',   // 淡雅的中间色
+                dark: '#E9D5FF'      // 优雅的深色
             },
             text: {
-                primary: '#1E1B4B',  // 主要文字
-                secondary: '#4338CA' // 次要文字
+                primary: '#1E1B4B',  // 沉稳的主文本
+                secondary: '#4338CA'  // 活力的次要文本
             }
-        }
+        },
+        styles: `
+            .reveal[data-theme="dream-purple"] {
+                background: var(--bg-100);
+                color: var(--text-100);
+            }
+            .reveal[data-theme="dream-purple"] .slides section {
+                background: var(--bg-200);
+                border: 1px solid var(--bg-300);
+                box-shadow: 0 4px 20px rgba(147, 51, 234, 0.1);
+            }
+        `
     },
 
     // 4. 深邃蓝
@@ -104,7 +117,18 @@ const themes = {
                 primary: '#F8FAFC',  // 主要文字
                 secondary: '#CBD5E1' // 次要文字
             }
-        }
+        },
+        styles: `
+            .reveal[data-theme="deep-blue"] {
+                background: var(--bg-100);
+                color: var(--text-100);
+            }
+            .reveal[data-theme="deep-blue"] .slides section {
+                background: var(--bg-200);
+                border: 1px solid var(--bg-300);
+                box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
+            }
+        `
     },
 
     // 5. 橙光夕阳
@@ -125,7 +149,18 @@ const themes = {
                 primary: '#F8FAFC',  // 主要文字
                 secondary: '#CBD5E1' // 次要文字
             }
-        }
+        },
+        styles: `
+            .reveal[data-theme="sunset-orange"] {
+                background: var(--bg-100);
+                color: var(--text-100);
+            }
+            .reveal[data-theme="sunset-orange"] .slides section {
+                background: var(--bg-200);
+                border: 1px solid var(--bg-300);
+                box-shadow: 0 4px 15px rgba(249, 115, 22, 0.1);
+            }
+        `
     },
 
     // 6. 翠绿森林
@@ -146,7 +181,18 @@ const themes = {
                 primary: '#0F172A',  // 主要文字
                 secondary: '#334155' // 次要文字
             }
-        }
+        },
+        styles: `
+            .reveal[data-theme="forest-green"] {
+                background: var(--bg-100);
+                color: var(--text-100);
+            }
+            .reveal[data-theme="forest-green"] .slides section {
+                background: var(--bg-200);
+                border: 1px solid var(--bg-300);
+                box-shadow: 0 4px 15px rgba(5, 150, 105, 0.1);
+            }
+        `
     },
 
     // 7. 科技感
@@ -214,7 +260,7 @@ export function previewPresentation(filename, content) {
             <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
             
             <style>
-                /* 基础样式 */
+                /* 础样式 */
                 :root {
                     --slide-width: 1280px;
                     --slide-height: 720px;
