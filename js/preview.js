@@ -1,55 +1,73 @@
 const themes = {
-    // 1. Ocean Deep - 深蓝主题(对应第一张截图)
-    'ocean-deep': {
-        name: 'Ocean Deep',
+    // 1. 深海蓝
+    'deep-sea': {
+        name: '深海蓝',
         colors: {
             primary: {
-                base: '#0EA5E9',    // 主蓝色
-                light: '#38BDF8',   // 浅蓝色
-                dark: '#0369A1'     // 深蓝色
+                base: '#0085ff',    // primary-100 主蓝色
+                light: '#69b4ff',   // primary-200 浅蓝色
+                dark: '#006fff'     // accent-100 深蓝色
             },
             background: {
-                dark: '#0F172A',    // 深色背景
-                medium: '#1E293B',  // 中等背景
-                light: '#334155'    // 浅色背景
+                dark: '#1E1E1E',    // bg-100 深色背景
+                medium: '#2d2d2d',  // bg-200 中等背景
+                light: '#454545'    // bg-300 浅色背景
             },
             text: {
-                primary: '#F1F5F9', // 主要文字
-                secondary: '#94A3B8' // 次要文字
+                primary: '#FFFFFF',   // text-100 主要文字
+                secondary: '#9e9e9e'  // text-200 次要文字
+            },
+            accent: {
+                light: '#e0ffff',    // primary-300 浅色强调
+                dark: '#e1ffff'      // accent-200 深色强调
             }
         },
         styles: `
-            .reveal[data-theme="ocean-deep"] {
+            .reveal[data-theme="deep-sea"] {
                 background: var(--bg-100);
                 color: var(--text-100);
+            }
+            .reveal[data-theme="deep-sea"] .slides section {
+                background: var(--bg-200);
+                border: 1px solid var(--bg-300);
             }
         `
     },
 
-    // 2. Coastal Morning - 浅色主题(对应第二张截图)
-    'coastal-morning': {
-        name: 'Coastal Morning',
+    // 2. 晨光白
+    'morning-light': {
+        name: '晨光白',
         colors: {
             primary: {
-                base: '#0284C7',     // 主蓝色
-                light: '#38BDF8',    // 浅蓝色
-                dark: '#075985'      // 深蓝色
+                base: '#71c4ef',    // accent-100 作为主色调
+                light: '#d4eaf7',   // primary-100 作为浅色
+                dark: '#00668c'     // accent-200 作为深色
             },
             background: {
-                light: '#F0F9FF',    // 浅色背景
-                medium: '#E0F2FE',   // 中等背景
-                dark: '#BAE6FD'      // 深色背景
+                light: '#fffefb',   // bg-100 最浅色背景
+                medium: '#f5f4f1',  // bg-200 中等背景
+                dark: '#cccbc8'     // bg-300 深色背景
             },
             text: {
-                primary: '#0F172A',  // 主要文字
-                secondary: '#334155' // 次要文字
+                primary: '#1d1c1c',   // text-100 主要文字
+                secondary: '#313d44'  // text-200 次要文字
             }
-        }
+        },
+        styles: `
+            .reveal[data-theme="morning-light"] {
+                background: var(--bg-100);
+                color: var(--text-100);
+            }
+            .reveal[data-theme="morning-light"] .slides section {
+                background: rgba(245, 244, 241, 0.9);  // bg-200 with opacity
+                border: 1px solid rgba(204, 203, 200, 0.2); // bg-300 with opacity
+            }
+        `
     },
 
-    // 3. Lavender Dream - 紫色主题(对应第三张截图)
-    'lavender-dream': {
-        name: 'Lavender Dream',
+    // 3. 梦幻紫
+    'dream-purple': {
+        name: '梦幻紫',
         colors: {
             primary: {
                 base: '#9333EA',     // 主紫色
@@ -68,9 +86,9 @@ const themes = {
         }
     },
 
-    // 4. Midnight Navy - 深蓝主题(对应第四张截图)
-    'midnight-navy': {
-        name: 'Midnight Navy',
+    // 4. 深邃蓝
+    'deep-blue': {
+        name: '深邃蓝',
         colors: {
             primary: {
                 base: '#2563EB',     // 主蓝色
@@ -89,9 +107,9 @@ const themes = {
         }
     },
 
-    // 5. Sunset Flame - 橙色主题(对应第五张截图)
-    'sunset-flame': {
-        name: 'Sunset Flame',
+    // 5. 橙光夕阳
+    'sunset-orange': {
+        name: '橙光夕阳',
         colors: {
             primary: {
                 base: '#F97316',     // 主橙色
@@ -110,9 +128,9 @@ const themes = {
         }
     },
 
-    // 6. Forest Breeze - 绿色主题(对应第六张截图)
-    'forest-breeze': {
-        name: 'Forest Breeze',
+    // 6. 翠绿森林
+    'forest-green': {
+        name: '翠绿森林',
         colors: {
             primary: {
                 base: '#059669',     // 主绿色
@@ -131,9 +149,9 @@ const themes = {
         }
     },
 
-    // 7. Tech Blue - 科技蓝主题(对应第七张截图)
-    'tech-blue': {
-        name: 'Tech Blue',
+    // 7. 科技感
+    'tech-style': {
+        name: '科技感',
         colors: {
             primary: {
                 base: '#2563EB',     // 主蓝色
@@ -156,9 +174,9 @@ const themes = {
         }
     },
 
-    // 8. Mint Fresh - 薄荷绿主题(对应第八张截图)
+    // 8. 薄荷清新
     'mint-fresh': {
-        name: 'Mint Fresh',
+        name: '薄荷清新',
         colors: {
             primary: {
                 base: '#10B981',     // 主绿色
@@ -193,166 +211,136 @@ export function previewPresentation(filename, content) {
             <title>${filename} - 演示文稿预览</title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/black.css" id="theme">
-            <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
             
             <style>
-                /* Ocean Deep Theme - 深蓝主题 */
-                .reveal[data-theme="ocean-deep"] {
-                    background: #1E1E1E;
-                    color: #FFFFFF;
-                }
-                .reveal[data-theme="ocean-deep"] .slides section {
-                    background: rgba(30, 41, 59, 0.8);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
+                /* 基础样式 */
+                :root {
+                    --slide-width: 1280px;
+                    --slide-height: 720px;
                 }
 
-                /* Coastal Morning Theme - 浅色主题 */
-                .reveal[data-theme="coastal-morning"] {
-                    background: #F0F9FF;
-                    color: #1E293B;
-                }
-                .reveal[data-theme="coastal-morning"] .slides section {
-                    background: rgba(255, 255, 255, 0.9);
-                    border: 1px solid rgba(0, 0, 0, 0.1);
+                body {
+                    margin: 0;
+                    padding: 0;
+                    background: #000;
                 }
 
-                /* Lavender Dream Theme - 紫色主题 */
-                .reveal[data-theme="lavender-dream"] {
-                    background: #F5F3F7;
-                    color: #4A4A4A;
-                }
-                .reveal[data-theme="lavender-dream"] .slides section {
-                    background: #FFFFFF;
-                    border: 1px solid rgba(147, 51, 234, 0.1);
+                .reveal {
+                    font-family: 'Noto Sans SC', sans-serif;
                 }
 
-                /* Midnight Navy Theme - 深蓝主题 */
-                .reveal[data-theme="midnight-navy"] {
-                    background: #0F172A;
-                    color: #F8FAFC;
-                }
-                .reveal[data-theme="midnight-navy"] .slides section {
-                    background: rgba(30, 41, 59, 0.9);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                }
-
-                /* Sunset Flame Theme - 橙色深色主题 */
-                .reveal[data-theme="sunset-flame"] {
-                    background: #1D1F21;
-                    color: #FFFFFF;
-                }
-                .reveal[data-theme="sunset-flame"] .slides section {
-                    background: rgba(44, 46, 48, 0.8);
-                    border: 1px solid rgba(255, 102, 0, 0.1);
-                }
-
-                /* Forest Breeze Theme - 绿色主题 */
-                .reveal[data-theme="forest-breeze"] {
-                    background: #F5ECD7;
-                    color: #353535;
-                }
-                .reveal[data-theme="forest-breeze"] .slides section {
-                    background: rgba(255, 255, 255, 0.9);
-                    border: 1px solid rgba(143, 191, 159, 0.2);
-                }
-
-                /* Tech Blue Theme - 科技蓝主题 */
-                .reveal[data-theme="tech-blue"] {
-                    background: #1E293B;
-                    color: #CBD5E1;
-                }
-                .reveal[data-theme="tech-blue"] .slides section {
-                    background: rgba(51, 65, 85, 0.7);
-                    border: 1px solid rgba(37, 99, 235, 0.1);
-                }
-
-                /* Mint Fresh Theme - 薄荷绿主题 */
-                .reveal[data-theme="mint-fresh"] {
-                    background: #E0F2F1;
-                    color: #263339;
-                }
-                .reveal[data-theme="mint-fresh"] .slides section {
-                    background: #FFFFFF;
-                    border: 1px solid rgba(38, 166, 154, 0.1);
-                }
-
-                /* 通用样式 */
                 .reveal .slides section {
-                    border-radius: 16px;
+                    width: var(--slide-width);
+                    height: var(--slide-height);
                     padding: 40px;
-                    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+                    box-sizing: border-box;
+                    text-align: left;
                 }
 
+                /* 标题样式 */
                 .reveal h1 {
-                    font-size: 42px;
+                    font-size: 2.5em;
                     font-weight: 700;
-                    margin-bottom: 0.8em;
+                    margin-bottom: 0.5em;
+                    border-bottom: 2px solid var(--primary-base);
+                    padding-bottom: 0.2em;
                 }
 
                 .reveal h2 {
-                    font-size: 34px;
+                    font-size: 1.8em;
                     font-weight: 600;
+                    margin-bottom: 0.8em;
                 }
 
                 .reveal h3 {
-                    font-size: 28px;
+                    font-size: 1.4em;
                     font-weight: 500;
+                    margin-bottom: 0.5em;
                 }
 
-                .reveal p,
-                .reveal ul,
-                .reveal ol {
-                    font-size: 26px;
+                /* 内容样式 */
+                .reveal p {
+                    font-size: 1.2em;
                     line-height: 1.6;
+                    margin-bottom: 1em;
                 }
 
+                .reveal ul, .reveal ol {
+                    font-size: 1.1em;
+                    line-height: 1.6;
+                    margin-left: 1em;
+                }
+
+                .reveal li {
+                    margin-bottom: 0.5em;
+                }
+
+                /* 代码块样式 */
                 .reveal pre {
-                    border-radius: 8px;
-                    padding: 1em;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                }
-
-                .reveal code {
                     font-family: 'JetBrains Mono', monospace;
-                    font-size: 22px;
+                    font-size: 0.9em;
+                    line-height: 1.4;
+                    padding: 1em;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
                 }
 
-                /* 主题选择器样式 */
+                /* 主题选择器 */
                 .theme-select {
                     position: fixed;
                     top: 20px;
                     right: 20px;
-                    z-index: 1000;
+                    z-index: 9999;
                     padding: 8px 12px;
-                    background: rgba(0, 0, 0, 0.6);
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                    border-radius: 8px;
-                    color: white;
                     font-family: inherit;
                     font-size: 14px;
+                    border-radius: 4px;
+                    background: rgba(0,0,0,0.6);
+                    color: #fff;
+                    border: 1px solid rgba(255,255,255,0.2);
                     backdrop-filter: blur(10px);
+                }
+
+                /* 进度条 */
+                .reveal .progress {
+                    height: 4px;
+                }
+
+                /* 导航箭头 */
+                .reveal .controls {
+                    color: var(--primary-base);
+                }
+
+                /* 幻灯片阴影效果 */
+                .reveal .slides section {
+                    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+                    border-radius: 12px;
+                    transition: all 0.3s ease;
                 }
             </style>
         </head>
         <body>
+            <!-- 主题选择器 -->
             <select class="theme-select" id="theme-select">
-                <option value="ocean-deep">Ocean Deep</option>
-                <option value="coastal-morning">Coastal Morning</option>
-                <option value="lavender-dream">Lavender Dream</option>
-                <option value="midnight-navy">Midnight Navy</option>
-                <option value="sunset-flame">Sunset Flame</option>
-                <option value="forest-breeze">Forest Breeze</option>
-                <option value="tech-blue">Tech Blue</option>
-                <option value="mint-fresh">Mint Fresh</option>
+                <option value="deep-sea">深海蓝</option>
+                <option value="morning-light">晨光白</option>
+                <option value="dream-purple">梦幻紫</option>
+                <option value="deep-blue">深邃蓝</option>
+                <option value="sunset-orange">橙光夕阳</option>
+                <option value="forest-green">翠绿森林</option>
+                <option value="tech-style">科技感</option>
+                <option value="mint-fresh">薄荷清新</option>
             </select>
 
+            <!-- 演示文稿容器 -->
             <div class="reveal">
                 <div class="slides">
                     ${slides}
                 </div>
             </div>
 
+            <!-- 脚本 -->
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
@@ -360,24 +348,58 @@ export function previewPresentation(filename, content) {
             <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/zoom/zoom.js"></script>
 
             <script>
+                const themes = ${JSON.stringify(themes)};
+
+                // 初始化 reveal.js
                 window.addEventListener('load', function() {
                     Reveal.initialize({
+                        width: 1280,
+                        height: 720,
+                        margin: 0.04,
+                        minScale: 0.2,
+                        maxScale: 2.0,
+                        center: true,
                         hash: true,
-                        center: false,
                         progress: true,
                         slideNumber: 'c/t',
                         plugins: [ RevealMarkdown, RevealHighlight, RevealMath, RevealZoom ]
-                    });
+                    }).then(() => {
+                        // 设置默认主题
+                        applyTheme('deep-sea');
 
-                    // 设置默认主题
-                    document.querySelector('.reveal').setAttribute('data-theme', 'ocean-deep');
-
-                    // 主题切换
-                    document.getElementById('theme-select').addEventListener('change', (e) => {
-                        document.querySelector('.reveal').setAttribute('data-theme', e.target.value);
-                        setTimeout(() => Reveal.layout(), 100);
+                        // 监听主题切换
+                        document.getElementById('theme-select').addEventListener('change', (e) => {
+                            applyTheme(e.target.value);
+                        });
                     });
                 });
+
+                // 应用主题
+                function applyTheme(themeName) {
+                    const theme = themes[themeName];
+                    if (!theme) return;
+
+                    const reveal = document.querySelector('.reveal');
+                    
+                    // 应用主题样式
+                    document.body.style.backgroundColor = theme.colors.background.dark;
+                    reveal.style.backgroundColor = theme.colors.background.dark;
+                    reveal.style.color = theme.colors.text.primary;
+
+                    // 应用幻灯片样式
+                    document.querySelectorAll('.reveal .slides section').forEach(slide => {
+                        slide.style.backgroundColor = theme.colors.background.medium;
+                        slide.style.borderColor = theme.colors.background.light;
+                    });
+
+                    // 应用标题样式
+                    document.querySelectorAll('.reveal h1, .reveal h2, .reveal h3').forEach(heading => {
+                        heading.style.color = theme.colors.primary.base;
+                    });
+
+                    reveal.setAttribute('data-theme', themeName);
+                    Reveal.layout();
+                }
             </script>
         </body>
         </html>
