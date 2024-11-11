@@ -415,7 +415,7 @@ export function previewPresentation(filename, content) {
                     margin: 10px auto;
                 }
 
-                /* 主题选择器样式 */
+                /* 主题选择器样��� */
                 #theme-selector {
                     position: fixed;
                     top: 20px;
@@ -574,18 +574,18 @@ export function previewPresentation(filename, content) {
 
                 // 图片错误处理函数
                 function handleImageError(img, alt) {
-                    const container = document.createElement('div');
-                    container.className = 'image-error-container';
-                    container.innerHTML = \`
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'image-error-container';
+                    errorDiv.innerHTML = `
                         <div class="image-error-icon">🖼️</div>
                         <div class="image-error-text">
                             <div>图片加载失败</div>
-                            <div style="font-size: 0.9em; opacity: 0.7;">\${alt || '未命名图片'}</div>
+                            <div style="font-size: 0.9em; opacity: 0.7;">${alt || '未命名图片'}</div>
                         </div>
-                    \`;
+                    `;
                     
                     if (img.parentNode) {
-                        img.parentNode.replaceChild(container, img);
+                        img.parentNode.replaceChild(errorDiv, img);
                     }
                 }
 
@@ -618,7 +618,7 @@ export function previewPresentation(filename, content) {
                     optimizeImages();
                 });
 
-                // 在幻灯片切换时检查新图片
+                // 在幻灯片切换时检查新���片
                 Reveal.addEventListener('slidechanged', () => {
                     optimizeImages();
                 });
@@ -640,27 +640,13 @@ function processContent(content) {
     
     // 处理图片链接
     content = content.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, url) => {
-        // 检查是否是网络图片
-        if (url.startsWith('http')) {
-            // 为网络图片添加错误处理和加载状态
-            return `
-                ![${alt}](${url})
-                <!-- .element: class="slide-image" 
-                    onload="this.classList.add('loaded')"
-                    onerror="handleImageError(this, '${alt}')"
-                    style="max-width: 90%; max-height: 70vh; transition: opacity 0.3s ease;" -->
-            `;
-        } else {
-            // 本地图片处理
-            const localImagePath = url.startsWith('/') ? url : `/${url}`;
-            return `
-                ![${alt}](${localImagePath})
-                <!-- .element: class="slide-image"
-                    onload="this.classList.add('loaded')"
-                    onerror="handleImageError(this, '${alt}')"
-                    style="max-width: 90%; max-height: 70vh; transition: opacity 0.3s ease;" -->
-            `;
-        }
+        return `
+            ![${alt}](${url})
+            <!-- .element: class="slide-image" 
+                onload="this.classList.add('loaded')"
+                onerror="handleImageError(this, '${alt}')"
+                style="max-width: 90%; max-height: 70vh; transition: opacity 0.3s ease;" -->
+        `;
     });
 
     // 分割幻灯片
@@ -669,3 +655,29 @@ function processContent(content) {
         .map(slide => `<section data-markdown><script type="text/template">\n${slide.trim()}\n</script></section>`)
         .join('\n');
 }
+
+// 使用 IIFE 避免全局变量污染
+(function() {
+    // ... 其他代码保持不变 ...
+    
+    // 修改图片错误处理
+    function handleImageError(img, alt) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'image-error-container';
+        errorDiv.innerHTML = `
+            <div class="image-error-icon">🖼️</div>
+            <div class="image-error-text">
+                <div>图片加载失败</div>
+                <div style="font-size: 0.9em; opacity: 0.7;">${alt || '未命名图片'}</div>
+            </div>
+        `;
+        
+        if (img.parentNode) {
+            img.parentNode.replaceChild(errorDiv, img);
+        }
+    }
+
+    // 导出需要的函数
+    window.previewPresentation = previewPresentation;
+    window.handleImageError = handleImageError;
+})();
