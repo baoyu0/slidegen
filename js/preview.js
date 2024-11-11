@@ -415,7 +415,7 @@ export function previewPresentation(filename, content) {
                     margin: 10px auto;
                 }
 
-                /* 主题选择器样��� */
+                /* 主题选择器样式 */
                 #theme-selector {
                     position: fixed;
                     top: 20px;
@@ -572,17 +572,18 @@ export function previewPresentation(filename, content) {
                     });
                 });
 
-                // 图片错误处理函数
+                // 修改图片错误处理函数
                 function handleImageError(img, alt) {
                     const errorDiv = document.createElement('div');
                     errorDiv.className = 'image-error-container';
-                    errorDiv.innerHTML = `
-                        <div class="image-error-icon">🖼️</div>
-                        <div class="image-error-text">
-                            <div>图片加载失败</div>
-                            <div style="font-size: 0.9em; opacity: 0.7;">${alt || '未命名图片'}</div>
-                        </div>
-                    `;
+                    
+                    // 使用字符串连接而不是模板字符串来避免语法错误
+                    errorDiv.innerHTML = 
+                        '<div class="image-error-icon">🖼️</div>' +
+                        '<div class="image-error-text">' +
+                            '<div>图片加载失败</div>' +
+                            '<div style="font-size: 0.9em; opacity: 0.7;">' + (alt || '未命名图片') + '</div>' +
+                        '</div>';
                     
                     if (img.parentNode) {
                         img.parentNode.replaceChild(errorDiv, img);
@@ -618,7 +619,7 @@ export function previewPresentation(filename, content) {
                     optimizeImages();
                 });
 
-                // 在幻灯片切换时检查新���片
+                // 在幻灯片切换时检查新片
                 Reveal.addEventListener('slidechanged', () => {
                     optimizeImages();
                 });
@@ -664,13 +665,14 @@ function processContent(content) {
     function handleImageError(img, alt) {
         const errorDiv = document.createElement('div');
         errorDiv.className = 'image-error-container';
-        errorDiv.innerHTML = `
-            <div class="image-error-icon">🖼️</div>
-            <div class="image-error-text">
-                <div>图片加载失败</div>
-                <div style="font-size: 0.9em; opacity: 0.7;">${alt || '未命名图片'}</div>
-            </div>
-        `;
+        
+        // 使用字符串连接而不是模板字符串来避免语法错误
+        errorDiv.innerHTML = 
+            '<div class="image-error-icon">🖼️</div>' +
+            '<div class="image-error-text">' +
+                '<div>图片加载失败</div>' +
+                '<div style="font-size: 0.9em; opacity: 0.7;">' + (alt || '未命名图片') + '</div>' +
+            '</div>';
         
         if (img.parentNode) {
             img.parentNode.replaceChild(errorDiv, img);
